@@ -2,1815 +2,1738 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>SkillMatrix Pro</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SkillMatrix Pro — Full Project Document</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
 <style>
-/* ══════════════════════════════════════════════
-   ROOT & RESET
-══════════════════════════════════════════════ */
-:root{
-  --bg:#07090f;
-  --s1:#0d1117;
-  --s2:#161b27;
-  --s3:#1c2333;
-  --border:#21293d;
-  --border2:#2a3550;
-  --a1:#4f9cf9;
-  --a2:#a78bfa;
-  --a3:#34d399;
-  --a4:#fbbf24;
-  --a5:#f87171;
-  --text:#f0f4ff;
-  --t2:#8b9ab8;
-  --t3:#3d4f6e;
-  --card-h:220px;
-  --ff:'Outfit',sans-serif;
-  --mono:'JetBrains Mono',monospace;
+:root {
+  --bg: #f8f9fc;
+  --white: #ffffff;
+  --s1: #f1f4fa;
+  --s2: #e8edf7;
+  --border: #dde3f0;
+  --border2: #c8d2e8;
+  --blue: #2563eb;
+  --blue-light: #eff4ff;
+  --blue-mid: #bfcfff;
+  --green: #059669;
+  --green-light: #ecfdf5;
+  --amber: #d97706;
+  --amber-light: #fffbeb;
+  --red: #dc2626;
+  --red-light: #fef2f2;
+  --purple: #7c3aed;
+  --purple-light: #f5f3ff;
+  --teal: #0891b2;
+  --teal-light: #ecfeff;
+  --text: #0f172a;
+  --text2: #334155;
+  --text3: #64748b;
+  --text4: #94a3b8;
+  --ff: 'Plus Jakarta Sans', sans-serif;
+  --mono: 'Fira Code', monospace;
 }
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-html{scroll-behavior:smooth;font-size:15px;}
-body{
-  font-family:var(--ff);
-  background:var(--bg);
-  color:var(--text);
-  min-height:100vh;
-  overflow-x:hidden;
-}
-/* subtle dot grid */
-body::before{
-  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
-  background-image:radial-gradient(circle,rgba(79,156,249,0.04) 1px,transparent 1px);
-  background-size:28px 28px;
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 15px; }
+body {
+  font-family: var(--ff);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
 }
 
-/* ══════════════════════════════════════════════
-   LOGIN SCREEN
-══════════════════════════════════════════════ */
-#login-screen{
-  position:fixed;inset:0;z-index:999;
-  display:flex;align-items:center;justify-content:center;
-  background:var(--bg);padding:20px;
+/* ── LAYOUT ─────────────────────────────────────────────── */
+.shell { display: flex; min-height: 100vh; }
+.sidebar {
+  width: 260px; flex-shrink: 0;
+  background: var(--white);
+  border-right: 1px solid var(--border);
+  position: sticky; top: 0; height: 100vh;
+  overflow-y: auto; padding: 24px 0;
 }
-.login-box{
-  width:100%;max-width:400px;
-  background:var(--s1);
-  border:1px solid var(--border2);
-  border-radius:20px;
-  padding:36px 28px;
-  position:relative;overflow:hidden;
-}
-.login-box::before{
-  content:'';position:absolute;top:-60px;right:-60px;
-  width:200px;height:200px;border-radius:50%;
-  background:radial-gradient(var(--a1),transparent 70%);
-  opacity:0.12;pointer-events:none;
-}
-.login-logo{
-  font-size:28px;font-weight:800;color:var(--a1);
-  letter-spacing:-1px;margin-bottom:6px;
-}
-.login-sub{font-size:13px;color:var(--t2);margin-bottom:28px;}
-.role-toggle{
-  display:grid;grid-template-columns:1fr 1fr;
-  gap:0;border:1px solid var(--border2);border-radius:10px;
-  overflow:hidden;margin-bottom:24px;
-}
-.role-btn{
-  padding:10px;text-align:center;font-size:13px;font-weight:600;
-  cursor:pointer;transition:all 0.2s;color:var(--t2);background:var(--s2);
-  border:none;font-family:var(--ff);
-}
-.role-btn.active{background:var(--a1);color:#fff;}
-.login-field{margin-bottom:14px;}
-.login-field label{display:block;font-size:11px;color:var(--t2);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}
-.login-field input{
-  width:100%;background:var(--bg);border:1px solid var(--border2);
-  color:var(--text);padding:11px 14px;border-radius:10px;
-  font-family:var(--ff);font-size:14px;outline:none;
-  transition:border-color 0.2s;
-}
-.login-field input:focus{border-color:var(--a1);}
-.login-hint{font-size:11px;color:var(--t3);margin-top:8px;text-align:center;}
-.btn-login{
-  width:100%;padding:13px;background:var(--a1);color:#fff;
-  border:none;border-radius:10px;font-size:15px;font-weight:700;
-  font-family:var(--ff);cursor:pointer;margin-top:8px;
-  transition:all 0.2s;letter-spacing:0.3px;
-}
-.btn-login:hover{background:#6aaeff;transform:translateY(-1px);}
-
-/* ══════════════════════════════════════════════
-   APP SHELL
-══════════════════════════════════════════════ */
-#app{display:none;min-height:100vh;}
-#app.visible{display:block;}
-
-/* ══════════════════════════════════════════════
-   TOPBAR
-══════════════════════════════════════════════ */
-.topbar{
-  position:sticky;top:0;z-index:200;
-  height:56px;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 16px;
-  background:rgba(7,9,15,0.9);
-  backdrop-filter:blur(16px);
-  border-bottom:1px solid var(--border);
-}
-.topbar-left{display:flex;align-items:center;gap:12px;}
-.hamburger{
-  width:36px;height:36px;border-radius:8px;
-  background:var(--s2);border:1px solid var(--border);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
-  cursor:pointer;flex-shrink:0;
-}
-.hamburger span{width:16px;height:1.5px;background:var(--t2);border-radius:99px;transition:all 0.3s;}
-.hamburger.open span:nth-child(1){transform:translateY(5.5px) rotate(45deg);}
-.hamburger.open span:nth-child(2){opacity:0;}
-.hamburger.open span:nth-child(3){transform:translateY(-5.5px) rotate(-45deg);}
-.app-title{
-  font-size:17px;font-weight:800;color:var(--a1);
-  letter-spacing:-0.5px;
-}
-.app-title sup{font-size:9px;color:var(--a2);vertical-align:top;margin-top:4px;}
-.topbar-right{display:flex;align-items:center;gap:8px;}
-.role-badge{
-  font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
-  padding:3px 9px;border-radius:99px;
-}
-.role-badge.admin{background:rgba(167,139,250,0.18);color:var(--a2);}
-.role-badge.user{background:rgba(79,156,249,0.15);color:var(--a1);}
-.icon-btn{
-  width:36px;height:36px;border-radius:8px;
-  background:var(--s2);border:1px solid var(--border);
-  display:flex;align-items:center;justify-content:center;
-  cursor:pointer;font-size:16px;position:relative;
-  transition:border-color 0.2s;
-}
-.icon-btn:hover{border-color:var(--a1);}
-.notif-dot{
-  position:absolute;top:6px;right:6px;
-  width:6px;height:6px;border-radius:50%;
-  background:var(--a4);border:1.5px solid var(--bg);
+.main { flex: 1; padding: 36px 40px; max-width: 1100px; }
+@media (max-width: 900px) {
+  .shell { flex-direction: column; }
+  .sidebar { width: 100%; height: auto; position: static; padding: 16px 0; }
+  .main { padding: 20px 16px; }
 }
 
-/* ══════════════════════════════════════════════
-   DRAWER SIDEBAR
-══════════════════════════════════════════════ */
-.drawer-overlay{
-  position:fixed;inset:0;z-index:300;
-  background:rgba(0,0,0,0);pointer-events:none;
-  transition:background 0.3s;
+/* ── SIDEBAR ────────────────────────────────────────────── */
+.sb-logo {
+  padding: 0 20px 20px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 10px;
 }
-.drawer-overlay.open{background:rgba(0,0,0,0.7);pointer-events:all;}
-.drawer{
-  position:fixed;top:0;left:-280px;bottom:0;width:280px;
-  z-index:301;background:var(--s1);
-  border-right:1px solid var(--border2);
-  transition:left 0.35s cubic-bezier(.4,0,.2,1);
-  display:flex;flex-direction:column;
-  overflow-y:auto;
+.sb-logo-mark {
+  font-size: 20px; font-weight: 800; color: var(--blue);
+  letter-spacing: -0.5px;
 }
-.drawer.open{left:0;}
-.drawer-header{
-  padding:20px 20px 16px;
-  border-bottom:1px solid var(--border);
+.sb-logo-sub { font-size: 10px; color: var(--text3); letter-spacing: 1.5px; text-transform: uppercase; margin-top: 2px; }
+.sb-section { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--text4); padding: 12px 20px 4px; }
+.sb-item {
+  display: flex; align-items: center; gap: 9px;
+  padding: 8px 20px; font-size: 13px; color: var(--text3);
+  cursor: pointer; border-left: 2px solid transparent;
+  transition: all 0.15s; text-decoration: none;
 }
-.drawer-logo{font-size:20px;font-weight:800;color:var(--a1);letter-spacing:-0.5px;}
-.drawer-role{
-  font-size:10px;letter-spacing:1.5px;text-transform:uppercase;
-  margin-top:4px;
+.sb-item:hover, .sb-item.active { background: var(--blue-light); color: var(--blue); border-left-color: var(--blue); }
+.sb-item .si { font-size: 14px; width: 18px; }
+.sb-badge {
+  margin-left: auto; font-size: 9px; padding: 1px 7px;
+  border-radius: 99px; font-weight: 700;
 }
-.drawer-nav{flex:1;padding:12px 0;}
-.nav-group-label{
-  font-size:9px;letter-spacing:2px;text-transform:uppercase;
-  color:var(--t3);padding:10px 20px 4px;
-}
-.nav-item{
-  display:flex;align-items:center;gap:12px;
-  padding:11px 20px;font-size:14px;color:var(--t2);
-  cursor:pointer;border-left:2px solid transparent;
-  transition:all 0.18s;
-}
-.nav-item:hover{background:var(--s2);color:var(--text);}
-.nav-item.active{
-  background:rgba(79,156,249,0.08);
-  border-left-color:var(--a1);color:var(--a1);
-}
-.nav-item.admin-only{display:none;}
-.nav-item.admin-only.show{display:flex;}
-.nav-icon{font-size:16px;width:20px;text-align:center;}
-.nav-badge{
-  margin-left:auto;font-size:9px;padding:2px 7px;
-  border-radius:99px;font-weight:700;
-}
-.nb-blue{background:rgba(79,156,249,0.2);color:var(--a1);}
-.nb-gold{background:rgba(251,191,36,0.2);color:var(--a4);}
-.drawer-user{
-  padding:16px 20px;border-top:1px solid var(--border);
-}
-.drawer-user-name{font-size:14px;font-weight:600;color:var(--text);}
-.drawer-user-meta{font-size:11px;color:var(--t3);margin-top:2px;}
-.logout-btn{
-  margin-top:10px;width:100%;padding:9px;
-  background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.2);
-  color:var(--a5);border-radius:8px;font-family:var(--ff);
-  font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;
-}
-.logout-btn:hover{background:rgba(248,113,113,0.2);}
+.sb-badge.blue { background: var(--blue); color: #fff; }
+.sb-badge.green { background: var(--green); color: #fff; }
+.sb-badge.amber { background: var(--amber); color: #fff; }
 
-/* ══════════════════════════════════════════════
-   CONTENT AREA
-══════════════════════════════════════════════ */
-.content{
-  padding:16px;
-  max-width:1200px;
-  margin:0 auto;
+/* ── COVER ──────────────────────────────────────────────── */
+.cover {
+  background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 50%, #2563eb 100%);
+  border-radius: 20px; padding: 44px 40px;
+  color: white; margin-bottom: 28px;
+  position: relative; overflow: hidden;
 }
-@media(min-width:768px){.content{padding:24px 28px;}}
-@media(min-width:1024px){
-  .drawer{left:0!important;}
-  .drawer-overlay{display:none!important;}
-  #app{display:grid;grid-template-columns:280px 1fr;grid-template-rows:56px 1fr;}
-  .topbar{grid-column:1/-1;}
-  .drawer{position:static;border-right:1px solid var(--border2);}
-  .hamburger{display:none;}
+.cover::before {
+  content: ''; position: absolute; top: -80px; right: -80px;
+  width: 300px; height: 300px; border-radius: 50%;
+  background: rgba(255,255,255,0.05);
 }
-
-/* PAGES */
-.page{display:none;}
-.page.active{display:block;animation:fadeUp 0.3s ease both;}
-@keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
-
-/* ══════════════════════════════════════════════
-   COMMON COMPONENTS
-══════════════════════════════════════════════ */
-
-/* Card */
-.card{
-  background:var(--s1);border:1px solid var(--border);
-  border-radius:14px;padding:18px;
-  position:relative;overflow:hidden;
+.cover::after {
+  content: ''; position: absolute; bottom: -60px; left: 200px;
+  width: 200px; height: 200px; border-radius: 50%;
+  background: rgba(255,255,255,0.04);
 }
-.card-glow::after{
-  content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,var(--a1),transparent);
-  opacity:0.5;
+.cover-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+.cover-badge {
+  font-size: 10px; font-weight: 700; letter-spacing: 1px;
+  padding: 4px 12px; border-radius: 99px; border: 1px solid rgba(255,255,255,0.3);
+  color: rgba(255,255,255,0.9); text-transform: uppercase;
+}
+.cover-title { font-size: 36px; font-weight: 800; letter-spacing: -1px; line-height: 1.1; margin-bottom: 10px; }
+.cover-sub { font-size: 15px; color: rgba(255,255,255,0.75); margin-bottom: 28px; line-height: 1.6; }
+.cover-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+@media (max-width: 600px) { .cover-stats { grid-template-columns: 1fr 1fr; } }
+.cstat {
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 12px; padding: 14px 16px;
+  text-align: center;
+}
+.cstat-val { font-size: 28px; font-weight: 800; color: #fff; line-height: 1; }
+.cstat-lbl { font-size: 10px; color: rgba(255,255,255,0.65); margin-top: 4px; letter-spacing: 0.5px; }
+
+/* ── SECTION ────────────────────────────────────────────── */
+.section { margin-bottom: 40px; }
+.section-id { font-size: 10px; font-weight: 700; color: var(--blue); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
+.section-title { font-size: 22px; font-weight: 800; color: var(--text); letter-spacing: -0.5px; margin-bottom: 6px; }
+.section-desc { font-size: 14px; color: var(--text3); margin-bottom: 20px; line-height: 1.7; }
+
+/* ── CARDS ──────────────────────────────────────────────── */
+.card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 14px; padding: 20px 22px;
+}
+.card-accent { border-top: 3px solid var(--accent-c, var(--blue)); }
+.card-title { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.card-sub { font-size: 12px; color: var(--text3); line-height: 1.5; }
+
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+.g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+.g4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 14px; margin-bottom: 16px; }
+@media (max-width: 800px) {
+  .g2, .g3, .g4 { grid-template-columns: 1fr; }
+}
+@media (min-width: 600px) and (max-width: 800px) {
+  .g3, .g4 { grid-template-columns: 1fr 1fr; }
 }
 
-/* Section header */
-.sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
-.sec-title{font-size:14px;font-weight:700;color:var(--text);}
-.sec-sub{font-size:11px;color:var(--t3);margin-top:1px;}
-
-/* Button */
-.btn{
-  display:inline-flex;align-items:center;justify-content:center;gap:6px;
-  padding:9px 18px;border-radius:10px;font-size:13px;font-weight:600;
-  cursor:pointer;border:none;transition:all 0.2s;font-family:var(--ff);
-  white-space:nowrap;
+/* ── STAT CARDS ─────────────────────────────────────────── */
+.stat-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 14px; padding: 18px 20px;
+  border-bottom: 3px solid var(--sc, var(--blue));
+  position: relative;
 }
-.btn-primary{background:var(--a1);color:#fff;}
-.btn-primary:hover{filter:brightness(1.1);transform:translateY(-1px);}
-.btn-success{background:var(--a3);color:#000;}
-.btn-ghost{background:var(--s2);border:1px solid var(--border2);color:var(--t2);}
-.btn-ghost:hover{border-color:var(--a1);color:var(--a1);}
-.btn-sm{padding:6px 12px;font-size:12px;}
-.btn-full{width:100%;}
+.stat-num { font-size: 30px; font-weight: 800; color: var(--text); font-family: var(--mono); line-height: 1; }
+.stat-lbl { font-size: 10px; color: var(--text3); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px; }
+.stat-note { font-size: 11px; color: var(--sc, var(--blue)); margin-top: 6px; font-weight: 600; }
+.stat-icon { position: absolute; top: 16px; right: 16px; font-size: 22px; opacity: 0.15; }
 
-/* Badge */
-.badge{display:inline-block;padding:3px 9px;border-radius:99px;font-size:10px;font-weight:700;letter-spacing:0.5px;}
-.badge-blue{background:rgba(79,156,249,0.15);color:var(--a1);}
-.badge-green{background:rgba(52,211,153,0.15);color:var(--a3);}
-.badge-yellow{background:rgba(251,191,36,0.15);color:var(--a4);}
-.badge-red{background:rgba(248,113,113,0.15);color:var(--a5);}
-.badge-purple{background:rgba(167,139,250,0.15);color:var(--a2);}
-
-/* Grid */
-.g2{display:grid;grid-template-columns:1fr;gap:14px;}
-.g3{display:grid;grid-template-columns:1fr;gap:14px;}
-.g4{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-@media(min-width:640px){.g2{grid-template-columns:1fr 1fr;}.g3{grid-template-columns:1fr 1fr;}}
-@media(min-width:960px){.g3{grid-template-columns:1fr 1fr 1fr;}}
-@media(min-width:900px){.g4{grid-template-columns:repeat(4,1fr);}}
-
-/* Stat card */
-.stat-card{
-  background:var(--s1);border:1px solid var(--border);
-  border-radius:14px;padding:16px;
-  position:relative;overflow:hidden;
-  border-bottom:2px solid var(--accent-c,var(--a1));
+/* ── TABLE ──────────────────────────────────────────────── */
+.tbl-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--border); }
+table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 480px; }
+thead { background: var(--s1); }
+th {
+  padding: 10px 14px; text-align: left;
+  font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--text3); font-weight: 600; white-space: nowrap;
+  border-bottom: 1px solid var(--border);
 }
-.stat-v{font-size:28px;font-weight:800;font-family:var(--mono);line-height:1;color:var(--text);}
-.stat-l{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--t3);margin-bottom:8px;}
-.stat-d{font-size:11px;color:var(--a3);margin-top:6px;}
-.stat-ic{position:absolute;top:14px;right:14px;font-size:20px;opacity:0.2;}
-
-/* Table */
-.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
-table{width:100%;border-collapse:collapse;min-width:500px;}
-th{padding:9px 12px;text-align:left;font-size:10px;letter-spacing:1.5px;
-  text-transform:uppercase;color:var(--t3);font-weight:600;white-space:nowrap;
-  border-bottom:1px solid var(--border);}
-td{padding:10px 12px;font-size:13px;color:var(--t2);border-bottom:1px solid rgba(33,41,61,0.6);}
-tr:last-child td{border-bottom:none;}
-tr:hover td{background:rgba(79,156,249,0.03);}
-.td-name{color:var(--text);font-weight:500;}
-
-/* Skill bar */
-.skill-row{display:flex;align-items:center;gap:10px;margin-bottom:9px;}
-.skill-lbl{font-size:12px;color:var(--t2);flex-shrink:0;width:110px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.skill-track{flex:1;height:6px;background:var(--bg);border-radius:99px;overflow:hidden;}
-.skill-fill{height:100%;border-radius:99px;transition:width 1s cubic-bezier(.4,0,.2,1);}
-.skill-val{font-size:10px;font-weight:700;width:20px;text-align:right;font-family:var(--mono);}
-
-/* Heatmap */
-.hmap-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
-.hmap{border-collapse:separate;border-spacing:3px;}
-.hmap th{font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--t3);
-  padding:3px 4px;text-align:center;white-space:nowrap;}
-.hmap .rl{font-size:11px;color:var(--t2);padding:3px 8px 3px 0;text-align:left;white-space:nowrap;}
-.hc{width:40px;height:32px;border-radius:6px;text-align:center;vertical-align:middle;
-  font-size:10px;font-weight:700;cursor:pointer;transition:transform 0.15s;}
-.hc:hover{transform:scale(1.12);}
-.hc3{background:rgba(52,211,153,0.22);color:#34d399;}
-.hc2{background:rgba(251,191,36,0.18);color:#fbbf24;}
-.hc1{background:rgba(248,113,113,0.16);color:#f87171;}
-.hc0{background:rgba(255,255,255,0.03);color:var(--t3);}
-
-/* Level selector */
-.level-row{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:10px 0;border-bottom:1px solid rgba(33,41,61,0.6);
+td {
+  padding: 11px 14px; color: var(--text2);
+  border-bottom: 1px solid rgba(221,227,240,0.6);
+  vertical-align: top; line-height: 1.5;
 }
-.level-row:last-child{border-bottom:none;}
-.level-lbl{font-size:13px;color:var(--t2);flex:1;padding-right:10px;}
-.level-btns{display:flex;gap:5px;}
-.lbtn{
-  width:34px;height:30px;border-radius:7px;
-  background:var(--bg);border:1px solid var(--border2);
-  color:var(--t3);font-size:12px;font-weight:700;
-  cursor:pointer;transition:all 0.15s;font-family:var(--mono);
-}
-.lbtn.s1{background:rgba(248,113,113,0.2);border-color:var(--a5);color:var(--a5);}
-.lbtn.s2{background:rgba(251,191,36,0.2);border-color:var(--a4);color:var(--a4);}
-.lbtn.s3{background:rgba(52,211,153,0.2);border-color:var(--a3);color:var(--a3);}
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: rgba(37,99,235,0.02); }
+.td-name { font-weight: 600; color: var(--text); }
+.td-code { font-family: var(--mono); font-size: 11px; color: var(--text3); }
 
-/* Form */
-.form-sec-title{
-  font-size:11px;letter-spacing:2px;text-transform:uppercase;
-  color:var(--a1);font-weight:700;margin:22px 0 12px;
-  padding-bottom:8px;border-bottom:1px solid var(--border);
+/* ── BADGE ──────────────────────────────────────────────── */
+.badge {
+  display: inline-block; padding: 3px 10px; border-radius: 99px;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.3px;
 }
-.fg{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;}
-.fg label{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--t3);}
-.fi{
-  background:var(--bg);border:1px solid var(--border2);color:var(--text);
-  padding:10px 13px;border-radius:10px;font-family:var(--ff);font-size:14px;
-  outline:none;transition:border-color 0.2s;width:100%;
+.b-blue { background: var(--blue-light); color: var(--blue); }
+.b-green { background: var(--green-light); color: var(--green); }
+.b-amber { background: var(--amber-light); color: var(--amber); }
+.b-red { background: var(--red-light); color: var(--red); }
+.b-purple { background: var(--purple-light); color: var(--purple); }
+.b-teal { background: var(--teal-light); color: var(--teal); }
+
+/* ── HIGHLIGHT BOX ──────────────────────────────────────── */
+.hbox {
+  border-radius: 12px; padding: 16px 18px; margin-bottom: 14px;
+  border-left: 4px solid var(--hb-c, var(--blue));
+  background: var(--hb-bg, var(--blue-light));
 }
-.fi:focus{border-color:var(--a1);}
-.fi-grid{display:grid;grid-template-columns:1fr;gap:10px;}
-@media(min-width:600px){.fi-grid{grid-template-columns:1fr 1fr;}}
-.fi-grid-3{display:grid;grid-template-columns:1fr;gap:10px;}
-@media(min-width:600px){.fi-grid-3{grid-template-columns:1fr 1fr;}}
-@media(min-width:900px){.fi-grid-3{grid-template-columns:1fr 1fr 1fr;}}
-.fi.full{grid-column:1/-1;}
-textarea.fi{resize:vertical;min-height:80px;}
-select.fi option{background:var(--s1);}
+.hbox-title { font-size: 12px; font-weight: 700; color: var(--hb-c, var(--blue)); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
+.hbox p { font-size: 13px; color: var(--text2); margin: 0; line-height: 1.6; }
+.hbox.warn { --hb-c: var(--amber); --hb-bg: var(--amber-light); }
+.hbox.danger { --hb-c: var(--red); --hb-bg: var(--red-light); }
+.hbox.success { --hb-c: var(--green); --hb-bg: var(--green-light); }
+.hbox.purple { --hb-c: var(--purple); --hb-bg: var(--purple-light); }
 
-/* Gap card */
-.gap-c{
-  background:var(--s2);border:1px solid var(--border);
-  border-radius:12px;padding:14px 16px;margin-bottom:10px;
-  border-left:3px solid var(--gc,var(--a1));
+/* ── FLOW ───────────────────────────────────────────────── */
+.flow { display: flex; align-items: stretch; flex-wrap: wrap; gap: 0; margin: 16px 0; }
+.flow-step {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 10px; padding: 12px 16px;
+  font-size: 12px; color: var(--text2); flex: 1; min-width: 110px;
+  text-align: center; position: relative;
 }
-@media(min-width:600px){.gap-c{display:flex;align-items:center;gap:16px;}}
-
-/* Progress bar */
-.prog-bar{background:var(--bg);border-radius:99px;height:7px;position:relative;overflow:visible;}
-.prog-fill{height:100%;border-radius:99px;transition:width 1s;}
-.prog-target{position:absolute;top:-4px;height:15px;width:2px;background:var(--a3);border-radius:2px;}
-
-/* Avatar */
-.av{
-  width:32px;height:32px;border-radius:50%;
-  background:linear-gradient(135deg,var(--a2),var(--a1));
-  display:flex;align-items:center;justify-content:center;
-  font-size:11px;font-weight:700;color:#fff;flex-shrink:0;
-  font-family:var(--mono);
+.flow-step strong { display: block; font-size: 10px; color: var(--text3); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 3px; }
+.flow-arrow {
+  display: flex; align-items: center; padding: 0 4px;
+  font-size: 18px; color: var(--border2);
 }
 
-/* Toast */
-.toast{
-  position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);
-  background:var(--s1);border:1px solid var(--a3);color:var(--a3);
-  padding:11px 20px;border-radius:12px;font-size:13px;font-weight:600;
-  z-index:9999;opacity:0;transition:all 0.3s;
-  white-space:nowrap;pointer-events:none;
+/* ── STEP LIST ──────────────────────────────────────────── */
+.step-list { list-style: none; margin: 14px 0; }
+.step-item { display: flex; gap: 14px; margin-bottom: 12px; align-items: flex-start; }
+.step-num {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--blue); color: #fff;
+  font-size: 12px; font-weight: 700; display: flex;
+  align-items: center; justify-content: center; flex-shrink: 0;
+  font-family: var(--mono); margin-top: 1px;
 }
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-.toast.err{border-color:var(--a5);color:var(--a5);}
+.step-content { font-size: 13px; color: var(--text2); line-height: 1.6; }
+.step-content strong { color: var(--text); font-weight: 700; }
 
-/* Modal */
-.modal-bg{
-  display:none;position:fixed;inset:0;z-index:500;
-  background:rgba(0,0,0,0.75);backdrop-filter:blur(6px);
-  align-items:center;justify-content:center;padding:16px;
+/* ── PORTAL COMPARE ─────────────────────────────────────── */
+.portal-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+@media (max-width: 650px) { .portal-wrap { grid-template-columns: 1fr; } }
+.portal-card { border-radius: 14px; overflow: hidden; border: 1px solid var(--border); }
+.portal-head {
+  padding: 14px 18px; font-size: 15px; font-weight: 700;
+  display: flex; align-items: center; gap: 10px;
 }
-.modal-bg.open{display:flex;}
-.modal{
-  background:var(--s1);border:1px solid var(--border2);border-radius:18px;
-  padding:24px;width:100%;max-width:500px;position:relative;
-  max-height:90vh;overflow-y:auto;
-  animation:fadeUp 0.3s ease;
+.portal-head.user { background: var(--blue); color: #fff; }
+.portal-head.admin { background: #1e293b; color: #fff; }
+.portal-head .ph-badge {
+  margin-left: auto; font-size: 9px; font-weight: 700;
+  padding: 2px 8px; border-radius: 99px;
+  background: rgba(255,255,255,0.2); color: #fff;
+  letter-spacing: 1px; text-transform: uppercase;
 }
-.modal-close{
-  position:absolute;top:14px;right:14px;
-  width:30px;height:30px;border-radius:7px;
-  background:var(--s2);border:1px solid var(--border);
-  color:var(--t2);cursor:pointer;display:flex;align-items:center;justify-content:center;
-  font-size:14px;
+.portal-body { padding: 14px 18px; background: var(--white); }
+.portal-item {
+  display: flex; align-items: flex-start; gap: 8px;
+  padding: 7px 0; border-bottom: 1px solid var(--s2);
+  font-size: 13px; color: var(--text2);
 }
+.portal-item:last-child { border-bottom: none; }
+.portal-item .pi-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  flex-shrink: 0; margin-top: 6px;
+}
+.portal-item .pi-dot.blue { background: var(--blue); }
+.portal-item .pi-dot.amber { background: var(--amber); }
+.portal-item strong { color: var(--text); }
 
-/* Scrollbar */
-::-webkit-scrollbar{width:4px;height:4px;}
-::-webkit-scrollbar-track{background:var(--bg);}
-::-webkit-scrollbar-thumb{background:var(--border2);border-radius:99px;}
+/* ── HEATMAP ────────────────────────────────────────────── */
+.hmap-wrap { overflow-x: auto; }
+.hmap { border-collapse: separate; border-spacing: 3px; margin: 10px 0; }
+.hmap th { font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: var(--text3); padding: 4px 6px; text-align: center; }
+.hmap td.rl { font-size: 11px; color: var(--text3); padding: 4px 10px 4px 0; text-align: right; white-space: nowrap; font-weight: 500; }
+.hc { width: 44px; height: 32px; border-radius: 6px; text-align: center; vertical-align: middle; font-size: 11px; font-weight: 700; }
+.hc3 { background: #d1fae5; color: #065f46; }
+.hc2 { background: #fef3c7; color: #92400e; }
+.hc1 { background: #fee2e2; color: #991b1b; }
+.hc0 { background: var(--s1); color: var(--text4); }
 
-/* Chip/filter */
-.chip{
-  display:inline-flex;align-items:center;gap:5px;
-  background:var(--s2);border:1px solid var(--border);
-  color:var(--t2);padding:5px 12px;border-radius:8px;
-  font-size:12px;cursor:pointer;transition:all 0.15s;
-}
-.chip.active,.chip:hover{border-color:var(--a1);color:var(--a1);background:rgba(79,156,249,0.07);}
-.chip-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
+/* ── SKILL BAR ──────────────────────────────────────────── */
+.sb-row { display: flex; align-items: center; gap: 10px; margin-bottom: 9px; }
+.sb-label { font-size: 12px; color: var(--text2); width: 130px; flex-shrink: 0; }
+.sb-track { flex: 1; height: 7px; background: var(--s2); border-radius: 99px; overflow: hidden; }
+.sb-fill { height: 100%; border-radius: 99px; }
+.sb-val { font-size: 11px; font-weight: 700; width: 24px; text-align: right; font-family: var(--mono); }
 
-/* Radio toggle */
-.rtoggle{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--border2);border-radius:10px;overflow:hidden;}
-.rtbtn{
-  padding:10px;text-align:center;font-size:13px;font-weight:600;
-  cursor:pointer;color:var(--t2);background:var(--s2);
-  border:none;font-family:var(--ff);transition:all 0.2s;
+/* ── PROMPT CARD ────────────────────────────────────────── */
+.prompt-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 14px; margin-bottom: 12px; overflow: hidden;
 }
-.rtbtn.active{background:var(--a1);color:#fff;}
+.prompt-head {
+  display: flex; align-items: center; gap: 12px;
+  padding: 13px 18px; background: var(--s1);
+  border-bottom: 1px solid var(--border);
+}
+.prompt-num {
+  width: 26px; height: 26px; border-radius: 50%; background: var(--blue);
+  color: #fff; font-size: 11px; font-weight: 700; display: flex;
+  align-items: center; justify-content: center; flex-shrink: 0;
+  font-family: var(--mono);
+}
+.prompt-title { font-size: 13px; font-weight: 700; color: var(--text); }
+.prompt-tag { margin-left: auto; font-size: 10px; }
+.prompt-body {
+  padding: 14px 18px; font-size: 12px; color: var(--text2);
+  line-height: 1.7; font-family: var(--mono);
+  white-space: pre-wrap; word-break: break-word;
+  background: #fafbff; border-left: 3px solid var(--blue);
+}
+.prompt-note { padding: 10px 18px 14px; font-size: 11px; color: var(--text3); }
 
-/* Donut */
-canvas{display:block;}
+/* ── FEATURE CARD ───────────────────────────────────────── */
+.feat-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 14px; padding: 18px 20px;
+  display: flex; gap: 14px; align-items: flex-start;
+  margin-bottom: 12px;
+}
+.feat-icon {
+  width: 40px; height: 40px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0;
+}
+.feat-text .ft-title { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+.feat-text .ft-desc { font-size: 12px; color: var(--text3); line-height: 1.6; }
+.feat-text .ft-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 7px; }
 
-/* Profile hero */
-.p-hero{
-  background:linear-gradient(135deg,var(--s2),var(--s1));
-  border:1px solid var(--border2);border-radius:16px;
-  padding:20px;display:flex;flex-wrap:wrap;
-  align-items:center;gap:16px;margin-bottom:18px;
-  position:relative;overflow:hidden;
+/* ── VISUAL CARD ────────────────────────────────────────── */
+.vis-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 14px; overflow: hidden;
 }
-.p-hero::before{
-  content:'';position:absolute;top:-40px;right:-40px;
-  width:180px;height:180px;border-radius:50%;
-  background:radial-gradient(var(--a2),transparent 70%);
-  opacity:0.1;pointer-events:none;
+.vis-head {
+  padding: 12px 18px; background: var(--s1);
+  border-bottom: 1px solid var(--border);
+  font-size: 13px; font-weight: 700; color: var(--text);
+  display: flex; align-items: center; justify-content: space-between;
 }
-.p-av{
-  width:64px;height:64px;border-radius:50%;flex-shrink:0;
-  background:linear-gradient(135deg,var(--a2),var(--a1));
-  display:flex;align-items:center;justify-content:center;
-  font-size:22px;font-weight:800;color:#fff;
-}
-.p-name{font-size:20px;font-weight:800;color:var(--text);}
-.p-role{font-size:12px;color:var(--a1);margin-top:3px;}
-.p-meta{display:flex;flex-wrap:wrap;gap:14px;margin-top:8px;}
-.pm{font-size:11px;color:var(--t3);}
-.pm span{color:var(--t2);font-weight:500;}
+.vis-body { padding: 16px 18px; }
+.vis-why { padding: 10px 18px 14px; font-size: 12px; color: var(--text3); background: var(--s1); border-top: 1px solid var(--border); }
+.vis-why strong { color: var(--text2); }
 
-/* Section page title */
-.page-title{
-  font-size:20px;font-weight:800;color:var(--text);
-  margin-bottom:4px;
+/* ── DB CARD ────────────────────────────────────────────── */
+.db-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 14px; overflow: hidden; margin-bottom: 16px;
 }
-.page-sub{font-size:13px;color:var(--t3);margin-bottom:18px;}
+.db-head {
+  padding: 12px 18px; display: flex; align-items: center; gap: 10px;
+  background: #0f172a; color: #e2e8f0;
+}
+.db-head-name { font-size: 14px; font-weight: 700; font-family: var(--mono); color: #93c5fd; }
+.db-head-desc { font-size: 11px; color: #64748b; }
+.db-head-badge { margin-left: auto; font-size: 9px; background: rgba(255,255,255,0.1); color: #94a3b8; padding: 2px 8px; border-radius: 99px; font-family: var(--mono); }
 
-/* Admin tab bar for view switching */
-.view-tabs{
-  display:flex;gap:0;border:1px solid var(--border2);
-  border-radius:10px;overflow:hidden;margin-bottom:18px;
-  flex-wrap:nowrap;
+/* ── CHAT PREVIEW ───────────────────────────────────────── */
+.chat-wrap {
+  background: var(--s1); border: 1px solid var(--border);
+  border-radius: 14px; padding: 16px; margin-bottom: 14px;
 }
-.vtab{
-  flex:1;padding:10px 8px;text-align:center;
-  font-size:12px;font-weight:600;cursor:pointer;
-  color:var(--t2);background:var(--s2);
-  border:none;font-family:var(--ff);transition:all 0.2s;
-  white-space:nowrap;
+.chat-header {
+  display: flex; align-items: center; gap: 10px;
+  padding-bottom: 12px; border-bottom: 1px solid var(--border); margin-bottom: 12px;
 }
-.vtab.active{background:var(--a1);color:#fff;}
+.chat-av {
+  width: 32px; height: 32px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: #fff; flex-shrink: 0;
+}
+.chat-msg { margin-bottom: 10px; }
+.chat-bubble {
+  display: inline-block; padding: 9px 14px; border-radius: 12px;
+  font-size: 13px; line-height: 1.5; max-width: 85%;
+}
+.cb-employee { background: var(--blue); color: #fff; border-bottom-left-radius: 3px; }
+.cb-manager { background: var(--white); border: 1px solid var(--border); color: var(--text2); border-bottom-right-radius: 3px; }
+.cb-system { background: var(--amber-light); border: 1px solid #fde68a; color: var(--amber); font-size: 11px; font-weight: 600; }
+.chat-meta { font-size: 10px; color: var(--text4); margin-top: 3px; }
 
-/* Step progress for form */
-.step-bar{
-  display:flex;align-items:center;gap:0;margin-bottom:24px;overflow-x:auto;
-  padding-bottom:2px;
+/* ── USER TYPE CARD ─────────────────────────────────────── */
+.user-type-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 14px; padding: 20px 22px;
 }
-.step{
-  display:flex;align-items:center;gap:6px;flex-shrink:0;
+.utc-av {
+  width: 52px; height: 52px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; margin-bottom: 12px;
 }
-.step-num{
-  width:26px;height:26px;border-radius:50%;
-  border:2px solid var(--border2);
-  display:flex;align-items:center;justify-content:center;
-  font-size:11px;font-weight:700;color:var(--t3);font-family:var(--mono);
-  transition:all 0.3s;flex-shrink:0;
-}
-.step.done .step-num{background:var(--a3);border-color:var(--a3);color:#000;}
-.step.active .step-num{background:var(--a1);border-color:var(--a1);color:#fff;}
-.step-lbl{font-size:10px;color:var(--t3);white-space:nowrap;}
-.step.active .step-lbl,.step.done .step-lbl{color:var(--text);}
-.step-line{flex:1;height:1px;background:var(--border);margin:0 4px;min-width:16px;}
-.step-line.done{background:var(--a3);}
+.utc-name { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+.utc-role { font-size: 11px; color: var(--text3); margin-bottom: 12px; }
+.utc-perm { display: flex; align-items: flex-start; gap: 7px; margin-bottom: 7px; font-size: 12px; color: var(--text2); }
+.utc-perm::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; }
+.utc-deny { display: flex; align-items: flex-start; gap: 7px; margin-bottom: 7px; font-size: 12px; color: var(--text3); }
+.utc-deny::before { content: '✗'; color: var(--red); font-weight: 700; flex-shrink: 0; }
 
-/* Responsive table on small screens */
-@media(max-width:599px){
-  .mob-stack td,.mob-stack th{display:none;}
-  .mob-stack .mc,.mob-stack .mc2{display:table-cell;}
+/* ── FILTER TAG ─────────────────────────────────────────── */
+.filter-demo {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 12px; padding: 16px 18px; margin-bottom: 10px;
 }
+.fd-title { font-size: 11px; font-weight: 700; color: var(--text3); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; }
+.fd-chips { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 10px; }
+.chip {
+  font-size: 11px; padding: 5px 12px; border-radius: 8px;
+  border: 1px solid var(--border); color: var(--text3);
+  cursor: pointer; font-weight: 500;
+}
+.chip.active { background: var(--blue); color: #fff; border-color: var(--blue); }
+.fd-result { font-size: 12px; color: var(--text3); padding: 8px 12px; background: var(--s1); border-radius: 8px; }
+.fd-result strong { color: var(--green); }
 
-/* AI rec card */
-.rec-card{
-  background:var(--s2);border:1px solid var(--border);
-  border-radius:10px;padding:12px 14px;
-  border-left:3px solid var(--a2);margin-bottom:8px;
-}
-.rec-cond{font-size:10px;color:var(--t3);margin-bottom:3px;}
-.rec-text{font-size:13px;color:var(--text);font-weight:500;}
+/* ── SECTION DIVIDER ────────────────────────────────────── */
+.divider { height: 1px; background: var(--border); margin: 32px 0; }
 
-/* Legend dot */
-.ldot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px;}
+/* ── TOC NAV ────────────────────────────────────────────── */
+.toc-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 14px; border-radius: 99px; font-size: 12px; font-weight: 600;
+  background: var(--blue-light); color: var(--blue);
+  border: 1px solid var(--blue-mid); margin: 4px;
+  text-decoration: none; cursor: pointer;
+}
+.toc-pill:hover { background: var(--blue); color: #fff; }
 
-/* Radar label responsive */
-@media(max-width:480px){
-  canvas#radar-home{width:240px!important;height:200px!important;}
-}
+/* ── SCROLLBAR ──────────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 99px; }
 
-/* Bottom nav for mobile */
-.bottom-nav{
-  display:flex;
-  position:fixed;bottom:0;left:0;right:0;
-  background:rgba(13,17,23,0.97);
-  border-top:1px solid var(--border);
-  z-index:201;padding:0;
+/* ── PRINT ──────────────────────────────────────────────── */
+@media print {
+  .sidebar { display: none; }
+  .main { padding: 20px; }
+  .cover { background: #1e3a8a !important; -webkit-print-color-adjust: exact; }
 }
-@media(min-width:1024px){.bottom-nav{display:none;}}
-.bnav-item{
-  flex:1;display:flex;flex-direction:column;align-items:center;
-  padding:9px 4px 10px;cursor:pointer;
-  font-size:9px;color:var(--t3);gap:3px;
-  transition:color 0.2s;
-}
-.bnav-item.active{color:var(--a1);}
-.bnav-icon{font-size:18px;line-height:1;}
-/* push content above bottom nav on mobile */
-@media(max-width:1023px){
-  .content{padding-bottom:80px;}
-}
-
-/* Report card */
-.report-card{
-  background:var(--s2);border:1px solid var(--border);
-  border-radius:12px;padding:16px;cursor:pointer;
-  transition:all 0.2s;
-}
-.report-card:hover{border-color:var(--a1);transform:translateY(-2px);}
 </style>
 </head>
 <body>
+<div class="shell">
 
-<!-- ══ LOGIN ══ -->
-<div id="login-screen">
-  <div class="login-box">
-    <div class="login-logo">⬡ SkillMatrix</div>
-    <div class="login-sub">QA Skill Analytics Platform</div>
-    <div class="role-toggle">
-      <button class="role-btn active" onclick="setLoginRole('user',this)">👤 Employee</button>
-      <button class="role-btn" onclick="setLoginRole('admin',this)">🛡 Admin</button>
-    </div>
-    <div class="login-field">
-      <label>Email / Employee ID</label>
-      <input type="text" id="li-user" value="magudesh@zensar.com" placeholder="your@email.com">
-    </div>
-    <div class="login-field">
-      <label>Password</label>
-      <input type="password" id="li-pass" value="••••••••" placeholder="Enter password">
-    </div>
-    <div class="login-hint" id="login-hint">Login as: <b>Employee</b> — fill your skill form &amp; view profile</div>
-    <button class="btn-login" onclick="doLogin()">Sign In →</button>
+<!-- ══ SIDEBAR ══ -->
+<aside class="sidebar">
+  <div class="sb-logo">
+    <div class="sb-logo-mark">⬡ SkillMatrix Pro</div>
+    <div class="sb-logo-sub">Project Document</div>
+  </div>
+
+  <div class="sb-section">Overview</div>
+  <a class="sb-item active" href="#cover"><span class="si">◈</span> Cover & Summary</a>
+  <a class="sb-item" href="#what"><span class="si">◉</span> What is this app</a>
+  <a class="sb-item" href="#who"><span class="si">◯</span> Who uses this</a>
+  <a class="sb-item" href="#benefit"><span class="si">↑</span> What we get from it</a>
+
+  <div class="sb-section">Portals</div>
+  <a class="sb-item" href="#portals"><span class="si">▦</span> Two portals explained</a>
+  <a class="sb-item" href="#user-portal"><span class="si">👤</span> User portal details</a>
+  <a class="sb-item" href="#admin-portal"><span class="si">🛡</span> Admin portal details</a>
+  <a class="sb-item" href="#chat-panel"><span class="si">💬</span> Chat in admin panel</a>
+
+  <div class="sb-section">Data & Features</div>
+  <a class="sb-item" href="#form-fields"><span class="si">📝</span> All form fields</a>
+  <a class="sb-item" href="#tables"><span class="si">📊</span> All tables</a>
+  <a class="sb-item" href="#visuals"><span class="si">◎</span> All visuals & why</a>
+  <a class="sb-item" href="#filters"><span class="si">⚙</span> All filters explained</a>
+
+  <div class="sb-section">Technical</div>
+  <a class="sb-item" href="#database"><span class="si">⬡</span> Database structure</a>
+  <a class="sb-item" href="#supabase-sleep"><span class="si">⚠</span> Supabase sleep fix</a>
+  <a class="sb-item" href="#prompts"><span class="si">✦</span> Lovable AI prompts</a>
+
+  <div class="sb-section">Approval</div>
+  <a class="sb-item" href="#timeline"><span class="si">▷</span> Project timeline</a>
+  <a class="sb-item" href="#checklist"><span class="si">✓</span> Approval checklist</a>
+</aside>
+
+<!-- ══ MAIN ══ -->
+<main class="main">
+
+<!-- ══ COVER ══ -->
+<div id="cover" class="cover">
+  <div class="cover-badges">
+    <span class="cover-badge">v1.0 Draft</span>
+    <span class="cover-badge">Lovable AI</span>
+    <span class="cover-badge">Supabase</span>
+    <span class="cover-badge">QA Team · Zensar</span>
+    <span class="cover-badge">March 2026</span>
+  </div>
+  <div class="cover-title">SkillMatrix Pro<br>Full Project Document</div>
+  <div class="cover-sub">Complete specification — covers both portals, all features, data collected, visuals, filters, chat system, database design, Supabase sleep fix, and ready-to-use Lovable AI prompts.</div>
+  <div class="cover-stats">
+    <div class="cstat"><div class="cstat-val">2</div><div class="cstat-lbl">Portals</div></div>
+    <div class="cstat"><div class="cstat-val">26</div><div class="cstat-lbl">Skills tracked</div></div>
+    <div class="cstat"><div class="cstat-val">5</div><div class="cstat-lbl">DB tables</div></div>
+    <div class="cstat"><div class="cstat-val">12+</div><div class="cstat-lbl">Employees</div></div>
   </div>
 </div>
 
-<!-- ══ APP ══ -->
-<div id="app">
+<!-- Quick nav pills -->
+<div style="margin-bottom:28px;">
+  <div style="font-size:11px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;">Jump to section</div>
+  <a class="toc-pill" href="#who">Who uses</a>
+  <a class="toc-pill" href="#benefit">What we get</a>
+  <a class="toc-pill" href="#portals">Two portals</a>
+  <a class="toc-pill" href="#chat-panel">Chat system</a>
+  <a class="toc-pill" href="#tables">Tables</a>
+  <a class="toc-pill" href="#visuals">Visuals</a>
+  <a class="toc-pill" href="#filters">Filters</a>
+  <a class="toc-pill" href="#database">Database</a>
+  <a class="toc-pill" href="#prompts">Prompts</a>
+  <a class="toc-pill" href="#checklist">Checklist</a>
+</div>
 
-  <!-- TOPBAR -->
-  <header class="topbar">
-    <div class="topbar-left">
-      <div class="hamburger" id="hamburger" onclick="toggleDrawer()">
-        <span></span><span></span><span></span>
-      </div>
-      <div class="app-title">SkillMatrix<sup>Pro</sup></div>
+<!-- ══ SECTION 1 ══ -->
+<div id="what" class="section">
+  <div class="section-id">Section 01</div>
+  <div class="section-title">What is SkillMatrix Pro?</div>
+  <div class="section-desc">A web application that replaces the current Excel skill tracking sheet. Every QA team member fills their skill ratings online. Managers see a real-time dashboard with charts, gaps, and team performance — without asking anyone for an update.</div>
+
+  <div class="hbox">
+    <div class="hbox-title">🎯 Core Problem Solved</div>
+    <p>Currently the team uses an Excel file. It gets outdated, is hard to filter, and managers cannot see team-wide gaps instantly. This app fixes all of that with a live, filterable, visual system that works on mobile and desktop.</p>
+  </div>
+
+  <div class="g3">
+    <div class="card card-accent" style="--accent-c: var(--blue)">
+      <div class="card-title">Before — Excel sheet</div>
+      <div class="card-sub">Manual updates, gets outdated, no charts, no filters, shared via email, breaks on mobile, no gap detection.</div>
     </div>
-    <div class="topbar-right">
-      <span class="role-badge" id="role-badge">User</span>
-      <div class="icon-btn" onclick="openNotif()">🔔<div class="notif-dot"></div></div>
-      <div class="av" id="top-av" onclick="goPage('profile')">MH</div>
+    <div class="card card-accent" style="--accent-c: var(--green)">
+      <div class="card-title">After — SkillMatrix Pro</div>
+      <div class="card-sub">Real-time updates, auto charts, smart filters, gap analysis, growth tracking, works on all devices.</div>
     </div>
-  </header>
-
-  <!-- DRAWER -->
-  <div class="drawer-overlay" id="overlay" onclick="closeDrawer()"></div>
-  <aside class="drawer" id="drawer">
-    <div class="drawer-header">
-      <div class="drawer-logo">⬡ SkillMatrix</div>
-      <div class="drawer-role" id="d-role-label"></div>
+    <div class="card card-accent" style="--accent-c: var(--purple)">
+      <div class="card-title">Extra value added</div>
+      <div class="card-sub">AI course recommendations, manager-employee chat, notification system, downloadable reports.</div>
     </div>
-    <nav class="drawer-nav" id="drawer-nav"></nav>
-    <div class="drawer-user">
-      <div class="drawer-user-name" id="d-uname">Magudeshwaran H</div>
-      <div class="drawer-user-meta" id="d-umeta">EMP-022 · QA</div>
-      <button class="logout-btn" onclick="doLogout()">⏻ Sign Out</button>
+  </div>
+
+  <div style="margin-top:16px;">
+    <div class="flow">
+      <div class="flow-step"><strong>Step 1</strong>Employee logs in</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><strong>Step 2</strong>Fills 5-step form</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><strong>Step 3</strong>Submits ratings</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><strong>Step 4</strong>Auto saved to DB</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><strong>Step 5</strong>Admin dashboard updates live</div>
     </div>
-  </aside>
+  </div>
+</div>
 
-  <!-- CONTENT -->
-  <div id="content-area" style="overflow-y:auto;">
-    <div class="content">
+<div class="divider"></div>
 
-      <!-- ═══ PAGE: DASHBOARD (admin) ═══ -->
-      <div class="page" id="page-dashboard">
-        <div class="page-title">Dashboard</div>
-        <div class="page-sub">QA Team Overview · March 2026</div>
+<!-- ══ SECTION 2 WHO ══ -->
+<div id="who" class="section">
+  <div class="section-id">Section 02</div>
+  <div class="section-title">Who Uses This App</div>
+  <div class="section-desc">Three types of users, each with a different experience.</div>
 
-        <div class="g4" style="margin-bottom:14px">
-          <div class="stat-card" style="--accent-c:var(--a1)"><div class="stat-ic">◉</div><div class="stat-l">Employees</div><div class="stat-v">12</div><div class="stat-d">↑ 2 this quarter</div></div>
-          <div class="stat-card" style="--accent-c:var(--a3)"><div class="stat-ic">★</div><div class="stat-l">Avg Level</div><div class="stat-v">2.1</div><div class="stat-d">↑ 0.3 up</div></div>
-          <div class="stat-card" style="--accent-c:var(--a4)"><div class="stat-ic">△</div><div class="stat-l">Skill Gaps</div><div class="stat-v">7</div><div class="stat-d" style="color:var(--a4)">2 resolved</div></div>
-          <div class="stat-card" style="--accent-c:var(--a2)"><div class="stat-ic">↑</div><div class="stat-l">Growth Plans</div><div class="stat-v">9</div><div class="stat-d">75% on track</div></div>
-        </div>
+  <div class="g3">
+    <div class="user-type-card">
+      <div class="utc-av" style="background:#eff4ff;">👤</div>
+      <div class="utc-name">QA Engineer / Tester</div>
+      <div class="utc-role">Employee portal — 12 people currently</div>
+      <div class="utc-perm">Login with company email</div>
+      <div class="utc-perm">Fill own skill form (26 skills)</div>
+      <div class="utc-perm">View own skill profile</div>
+      <div class="utc-perm">See personal growth plan</div>
+      <div class="utc-perm">Get AI course suggestions</div>
+      <div class="utc-perm">Chat with manager directly</div>
+      <div class="utc-deny">Cannot see other employees</div>
+      <div class="utc-deny">Cannot see team dashboard</div>
+    </div>
+    <div class="user-type-card">
+      <div class="utc-av" style="background:#fef3c7;">🛡</div>
+      <div class="utc-name">Manager / Team Lead</div>
+      <div class="utc-role">Admin portal — 1–2 people</div>
+      <div class="utc-perm">Full team dashboard with charts</div>
+      <div class="utc-perm">View all 12 employees</div>
+      <div class="utc-perm">See complete skill heatmap</div>
+      <div class="utc-perm">Gap analysis with training ideas</div>
+      <div class="utc-perm">Chat with any employee</div>
+      <div class="utc-perm">Send team-wide notifications</div>
+      <div class="utc-perm">Download all reports</div>
+      <div class="utc-perm">Add / edit / remove employees</div>
+      <div class="utc-perm">Configure skill targets</div>
+    </div>
+    <div class="user-type-card">
+      <div class="utc-av" style="background:#f5f3ff;">⚙</div>
+      <div class="utc-name">HR / Super Admin</div>
+      <div class="utc-role">Admin portal — optional role</div>
+      <div class="utc-perm">All manager permissions</div>
+      <div class="utc-perm">Manage master skill list</div>
+      <div class="utc-perm">View all activity logs</div>
+      <div class="utc-perm">Export full org data</div>
+      <div class="utc-perm">Manage user roles</div>
+      <div class="utc-perm">Set system-wide settings</div>
+      <div class="utc-deny">Not needed for MVP launch</div>
+    </div>
+  </div>
 
-        <div class="g2" style="margin-bottom:14px">
-          <div class="card card-glow">
-            <div class="sec-head"><div><div class="sec-title">Automation Coverage</div><div class="sec-sub">Team avg (1–3)</div></div></div>
-            <div id="dash-auto-bars"></div>
-          </div>
-          <div class="card">
-            <div class="sec-head"><div class="sec-title">Skill Distribution</div></div>
-            <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
-              <canvas id="donut-main" width="120" height="120"></canvas>
-              <div>
-                <div style="margin-bottom:7px;font-size:12px;color:var(--t2)"><span class="ldot" style="background:var(--a3)"></span>Advanced <b style="color:var(--text)">28%</b></div>
-                <div style="margin-bottom:7px;font-size:12px;color:var(--t2)"><span class="ldot" style="background:var(--a4)"></span>Intermediate <b style="color:var(--text)">45%</b></div>
-                <div style="font-size:12px;color:var(--t2)"><span class="ldot" style="background:var(--a5)"></span>Beginner <b style="color:var(--text)">27%</b></div>
-              </div>
-            </div>
-          </div>
-        </div>
+  <div class="hbox warn" style="margin-top:4px;">
+    <div class="hbox-title">🔐 How Access is Controlled</div>
+    <p>In Supabase, every user has a <strong>role</strong> column — value is either <code>employee</code> or <code>admin</code>. Supabase Row Level Security (RLS) rules make it so employees can only read their own data rows. Admin pages are not rendered in the browser for employee accounts — they are completely hidden, not just locked.</p>
+  </div>
+</div>
 
-        <div class="g2" style="margin-bottom:14px">
-          <div class="card">
-            <div class="sec-head"><div class="sec-title">AI Skills Radar</div></div>
-            <div style="display:flex;justify-content:center;">
-              <canvas id="radar-home" width="260" height="210"></canvas>
-            </div>
-          </div>
-          <div class="card">
-            <div class="sec-head"><div class="sec-title">Top Performers</div><button class="btn btn-ghost btn-sm" onclick="goPage('employees')">All</button></div>
-            <div id="top-perf-list"></div>
-          </div>
-        </div>
+<div class="divider"></div>
 
-        <div class="card">
-          <div class="sec-head"><div class="sec-title">Recent Updates</div></div>
-          <div class="tbl-wrap">
-            <table class="mob-stack">
-              <thead><tr><th class="mc">Employee</th><th>Skill</th><th class="mc2">Level</th><th>Type</th><th>Date</th></tr></thead>
-              <tbody id="recent-act"></tbody>
-            </table>
-          </div>
-        </div>
+<!-- ══ SECTION 3 BENEFIT ══ -->
+<div id="benefit" class="section">
+  <div class="section-id">Section 03</div>
+  <div class="section-title">What We Get from This App</div>
+  <div class="section-desc">Every output this system produces — what it shows, what it saves, what decisions it enables.</div>
+
+  <div class="g2" style="margin-bottom:14px;">
+    <div class="feat-card">
+      <div class="feat-icon" style="background:#eff4ff;">📊</div>
+      <div class="feat-text">
+        <div class="ft-title">Real-time team skill snapshot</div>
+        <div class="ft-desc">Manager opens the dashboard and immediately sees team average score, top performers, weakest skills, and skill level distribution — without asking anyone.</div>
+        <div class="ft-tags"><span class="badge b-blue">Dashboard</span><span class="badge b-teal">Charts</span></div>
+      </div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon" style="background:#ecfdf5;">⚠️</div>
+      <div class="feat-text">
+        <div class="ft-title">Automatic skill gap detection</div>
+        <div class="ft-desc">System compares each skill's team average against the target level. Flags gaps automatically with a priority badge (High / Medium / Low) and suggests a training course.</div>
+        <div class="ft-tags"><span class="badge b-amber">Gap Analysis</span><span class="badge b-red">7 gaps found</span></div>
+      </div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon" style="background:#fef3c7;">📈</div>
+      <div class="feat-text">
+        <div class="ft-title">Individual growth plan tracking</div>
+        <div class="ft-desc">Each employee sets a skill target. Manager sees every employee's progress on one screen. Status updates: Planned → In Progress → On Track → Done.</div>
+        <div class="ft-tags"><span class="badge b-green">Growth Plan</span><span class="badge b-purple">9 active plans</span></div>
+      </div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon" style="background:#f5f3ff;">🤖</div>
+      <div class="feat-text">
+        <div class="ft-title">AI course recommendations</div>
+        <div class="ft-desc">System reads an employee's skill levels and suggests next learning steps. Example: Python L2 + Selenium L1 → suggests "Selenium with Python (Udemy)".</div>
+        <div class="ft-tags"><span class="badge b-purple">AI Engine</span><span class="badge b-blue">Profile page</span></div>
+      </div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon" style="background:#ecfeff;">💬</div>
+      <div class="feat-text">
+        <div class="ft-title">Manager-employee chat</div>
+        <div class="ft-desc">Managers can message any employee about their skill ratings, growth plan, or training. Employees reply from their portal. All messages stored and visible in admin panel.</div>
+        <div class="ft-tags"><span class="badge b-teal">Chat system</span><span class="badge b-blue">Admin panel</span></div>
+      </div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon" style="background:#fef2f2;">📥</div>
+      <div class="feat-text">
+        <div class="ft-title">Downloadable reports</div>
+        <div class="ft-desc">6 report types: Employee Skill Report, AI Readiness, Gap Analysis, Growth Tracker, Automation Coverage, Manager Summary. Download as PDF, Excel, or CSV.</div>
+        <div class="ft-tags"><span class="badge b-red">PDF</span><span class="badge b-green">Excel</span><span class="badge b-amber">CSV</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="g4">
+    <div class="stat-card" style="--sc: var(--blue)"><div class="stat-icon">◉</div><div class="stat-lbl">Time saved per manager</div><div class="stat-num">3h</div><div class="stat-note">Per week vs Excel</div></div>
+    <div class="stat-card" style="--sc: var(--green)"><div class="stat-icon">↑</div><div class="stat-lbl">Skills tracked</div><div class="stat-num">26</div><div class="stat-note">Core + Auto + AI</div></div>
+    <div class="stat-card" style="--sc: var(--amber)"><div class="stat-icon">△</div><div class="stat-lbl">Auto gap detection</div><div class="stat-num">100%</div><div class="stat-note">No manual check</div></div>
+    <div class="stat-card" style="--sc: var(--purple)"><div class="stat-icon">⬡</div><div class="stat-lbl">Report types</div><div class="stat-num">6</div><div class="stat-note">One-click export</div></div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══ PORTALS ══ -->
+<div id="portals" class="section">
+  <div class="section-id">Section 04</div>
+  <div class="section-title">Two Portals — Side by Side</div>
+  <div class="section-desc">Same login URL, different role selected. After login Supabase reads the role and redirects to the correct portal. Admin pages never load in the browser for employee accounts.</div>
+
+  <div class="portal-wrap">
+    <div class="portal-card">
+      <div class="portal-head user">
+        <span>👤</span> Employee Portal
+        <span class="ph-badge">Public</span>
+      </div>
+      <div class="portal-body">
+        <div class="portal-item"><div class="pi-dot blue"></div>Login with email + password (Supabase Auth)</div>
+        <div class="portal-item"><div class="pi-dot blue"></div>Redirected to <strong>/form</strong> — 5-step skill form</div>
+        <div class="portal-item"><div class="pi-dot blue"></div>Fill Basic Info → Core Skills → Automation → AI Skills → Growth Plan</div>
+        <div class="portal-item"><div class="pi-dot blue"></div>View <strong>/profile</strong> — own skill bars + radar + growth plan</div>
+        <div class="portal-item"><div class="pi-dot blue"></div>See AI course recommendations on profile</div>
+        <div class="portal-item"><div class="pi-dot blue"></div>Chat with manager from profile page</div>
+        <div class="portal-item"><div class="pi-dot blue"></div>Receive notifications from manager</div>
+        <div class="portal-item" style="color:var(--red);"><div class="pi-dot" style="background:var(--red)"></div>Cannot see /dashboard, /heatmap, /admin</div>
+        <div class="portal-item" style="color:var(--red);"><div class="pi-dot" style="background:var(--red)"></div>Cannot see other employees' data</div>
+      </div>
+    </div>
+    <div class="portal-card">
+      <div class="portal-head admin">
+        <span>🛡</span> Admin Portal
+        <span class="ph-badge">Hidden</span>
+      </div>
+      <div class="portal-body">
+        <div class="portal-item"><div class="pi-dot amber"></div>Login with admin credentials (separate account)</div>
+        <div class="portal-item"><div class="pi-dot amber"></div>Redirected to <strong>/dashboard</strong> — full analytics</div>
+        <div class="portal-item"><div class="pi-dot amber"></div><strong>/employees</strong> — all staff table with filters</div>
+        <div class="portal-item"><div class="pi-dot amber"></div><strong>/heatmap</strong> — full team skill matrix grid</div>
+        <div class="portal-item"><div class="pi-dot amber"></div><strong>/gap-analysis</strong> — 7 gaps with training ideas</div>
+        <div class="portal-item"><div class="pi-dot amber"></div><strong>/growth-plan</strong> — all employees' plans</div>
+        <div class="portal-item"><div class="pi-dot amber"></div><strong>/reports</strong> — 6 downloadable reports</div>
+        <div class="portal-item"><div class="pi-dot amber"></div><strong>/admin</strong> — Users, Skills, Alerts, Settings tabs</div>
+        <div class="portal-item"><div class="pi-dot amber"></div><strong>/chat</strong> — message any employee, see all threads</div>
+        <div class="portal-item"><div class="pi-dot amber"></div>Add/edit/delete employees, configure targets</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══ USER PORTAL ══ -->
+<div id="user-portal" class="section">
+  <div class="section-id">Section 05</div>
+  <div class="section-title">User Portal — Full Journey</div>
+
+  <ol class="step-list">
+    <li class="step-item">
+      <div class="step-num">1</div>
+      <div class="step-content"><strong>Login screen</strong> — Employee selects "Employee" role toggle. Enters work email and password. Supabase Auth verifies. On success → redirected to /form.</div>
+    </li>
+    <li class="step-item">
+      <div class="step-num">2</div>
+      <div class="step-content"><strong>Form Step 1 — Basic Info</strong> — Fills: Full name, Employee ID, Email, Experience (dropdown), Department (dropdown), Manager name. All saved to <code>employees</code> table.</div>
+    </li>
+    <li class="step-item">
+      <div class="step-num">3</div>
+      <div class="step-content"><strong>Form Step 2 — Core Testing Skills</strong> — 9 skills. Each skill shows 3 buttons: 1 (Beginner), 2 (Intermediate), 3 (Advanced). Buttons turn color on select. Red=1, Yellow=2, Green=3.</div>
+    </li>
+    <li class="step-item">
+      <div class="step-num">4</div>
+      <div class="step-content"><strong>Form Step 3 — Automation Skills</strong> — 9 skills (Selenium, Playwright, Cypress, Appium, Java, Python, JavaScript, Framework Design, CI/CD). Same 1-2-3 rating.</div>
+    </li>
+    <li class="step-item">
+      <div class="step-num">5</div>
+      <div class="step-content"><strong>Form Step 4 — AI & Emerging Skills</strong> — 8 skills (AI Test Case Gen, AI Coding Assistants, Prompt Engineering, LLM Testing, Zense AI, AI Test Data Gen, Prompt Optimization, AI Automation Tools). Same 1-2-3 rating.</div>
+    </li>
+    <li class="step-item">
+      <div class="step-num">6</div>
+      <div class="step-content"><strong>Form Step 5 — Growth Plan</strong> — Skill to improve (text), Action plan (textarea), Timeline (dropdown: 1/3/6/12 months). Saved to <code>growth_plans</code> table.</div>
+    </li>
+    <li class="step-item">
+      <div class="step-num">7</div>
+      <div class="step-content"><strong>Submit</strong> — All data saved. Manager gets a notification: "Magudeshwaran H submitted skill ratings." Employee is taken to their profile page.</div>
+    </li>
+    <li class="step-item">
+      <div class="step-num">8</div>
+      <div class="step-content"><strong>Profile page</strong> — Shows: avatar + name + badges, skill progress bars (all 26 skills), AI radar chart, growth plan table, AI course recommendations, and chat button.</div>
+    </li>
+  </ol>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══ ADMIN PORTAL ══ -->
+<div id="admin-portal" class="section">
+  <div class="section-id">Section 06</div>
+  <div class="section-title">Admin Portal — Every Page Explained</div>
+
+  <div class="feat-card">
+    <div class="feat-icon" style="background:#eff4ff; font-size:20px;">◈</div>
+    <div class="feat-text">
+      <div class="ft-title">Dashboard — first page after admin login</div>
+      <div class="ft-desc">Shows 4 stat cards (Total Employees, Team Average Level, Skills with Gaps, Active Growth Plans). Then 6 charts: automation bar chart, skill distribution donut, AI skills radar, top performers list, skill heatmap preview, recent activity table.</div>
+      <div class="ft-tags"><span class="badge b-blue">6 Charts</span><span class="badge b-green">Real-time</span></div>
+    </div>
+  </div>
+
+  <div class="feat-card">
+    <div class="feat-icon" style="background:#ecfdf5; font-size:20px;">◉</div>
+    <div class="feat-text">
+      <div class="ft-title">Employees page — full team table</div>
+      <div class="ft-desc">Table of all employees with columns: Name, ID, Dept, Experience, Core Avg, Automation Avg, AI Avg, Overall Score, Action button. Click any row to open a popup with full skill breakdown. Filter bar at top to narrow by dept, experience, level.</div>
+      <div class="ft-tags"><span class="badge b-blue">Filterable</span><span class="badge b-amber">Clickable rows</span></div>
+    </div>
+  </div>
+
+  <div class="feat-card">
+    <div class="feat-icon" style="background:#fef3c7; font-size:20px;">▦</div>
+    <div class="feat-text">
+      <div class="ft-title">Heatmap page — team skill matrix</div>
+      <div class="ft-desc">Grid table: rows = employees (12), columns = skills (9 shown at a time). Each cell colored: Green=3, Yellow=2, Red=1, Grey=not rated. Switch tabs to see Automation / Core Testing / AI Skills. Manager can spot patterns at a glance — e.g. entire column is red = team needs training on that skill.</div>
+      <div class="ft-tags"><span class="badge b-amber">3 views</span><span class="badge b-red">Gap visible</span></div>
+    </div>
+  </div>
+
+  <div class="feat-card">
+    <div class="feat-icon" style="background:#fee2e2; font-size:20px;">△</div>
+    <div class="feat-text">
+      <div class="ft-title">Gap Analysis — where the team is weak</div>
+      <div class="ft-desc">System auto-detects 7 skill gaps. Each gap shows: skill name, current team average, target level, gap size, progress bar with target marker, priority badge (High/Medium/Low), and a recommended training course. Sorted by priority.</div>
+      <div class="ft-tags"><span class="badge b-red">7 gaps</span><span class="badge b-amber">Auto-detected</span></div>
+    </div>
+  </div>
+
+  <div class="feat-card">
+    <div class="feat-icon" style="background:#ecfdf5; font-size:20px;">↑</div>
+    <div class="feat-text">
+      <div class="ft-title">Growth Plan — all employees' plans</div>
+      <div class="ft-desc">Table with columns: Employee, Skill, Current Level, Target Level, Progress bar, Timeline, Action Plan, Status (Planned/In Progress/On Track/Done). Manager can track all 9 active growth plans on one screen.</div>
+      <div class="ft-tags"><span class="badge b-green">9 plans</span><span class="badge b-blue">Status tracking</span></div>
+    </div>
+  </div>
+
+  <div class="feat-card">
+    <div class="feat-icon" style="background:#f5f3ff; font-size:20px;">↓</div>
+    <div class="feat-text">
+      <div class="ft-title">Reports — 6 download options</div>
+      <div class="ft-desc">Cards for: Employee Skill Report (PDF/Excel), AI Skill Readiness (PDF), Gap Analysis Report (PDF/Excel), Growth Tracker (Excel/CSV), Automation Coverage (Excel), Manager Team Summary (PDF). One-click download.</div>
+      <div class="ft-tags"><span class="badge b-purple">PDF</span><span class="badge b-green">Excel</span><span class="badge b-amber">CSV</span></div>
+    </div>
+  </div>
+
+  <div class="feat-card">
+    <div class="feat-icon" style="background:#fef2f2; font-size:20px;">🛡</div>
+    <div class="feat-text">
+      <div class="ft-title">Admin Panel — 4 management tabs</div>
+      <div class="ft-desc"><strong>Users tab:</strong> Search employees, view detail, add/edit/delete. <strong>Skills tab:</strong> Edit master skills list, add new skills, deactivate old ones. <strong>Alerts tab:</strong> See all notifications sent, compose new message to All / Department / Individual. <strong>Settings tab:</strong> Rating cycle frequency, reminder days, target level per category.</div>
+      <div class="ft-tags"><span class="badge b-blue">4 tabs</span><span class="badge b-amber">Full control</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══ CHAT PANEL ══ -->
+<div id="chat-panel" class="section">
+  <div class="section-id">Section 07</div>
+  <div class="section-title">Chat System in Admin Panel(Optional)</div>
+  <div class="section-desc">Managers can message any employee about skill ratings, growth plans, or training. Employees reply from their portal. All conversations are visible and filterable in the admin panel.</div>
+
+  <div class="g2" style="margin-bottom:16px;">
+    <div>
+      <div class="hbox purple" style="margin-bottom:12px;">
+        <div class="hbox-title">💬 How Chat Works</div>
+        <p>The admin panel has a <strong>Chat</strong> section. It shows a list of all employees on the left. Click any employee to open the conversation thread on the right. Manager types a message → saved to Supabase <code>messages</code> table → employee sees it in their portal with a notification badge. Employee replies → manager sees the reply in admin panel.</p>
       </div>
 
-      <!-- ═══ PAGE: EMPLOYEES ═══ -->
-      <div class="page" id="page-employees">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;flex-wrap:wrap;gap:10px;">
-          <div><div class="page-title">Employees</div><div class="page-sub">12 members · QA Team</div></div>
-          <button class="btn btn-primary btn-sm" onclick="goPage('form')">＋ Add</button>
-        </div>
-        <div class="chip-bar">
-          <select class="fi" style="width:auto;padding:5px 10px;font-size:12px" id="ef-dept" onchange="filterEmp()">
-            <option value="">All Depts</option><option>QA</option><option>Dev</option><option>DevOps</option>
-          </select>
-          <div class="chip active" onclick="empLvlF(0,this)">All</div>
-          <div class="chip" onclick="empLvlF(3,this)">🟢 Adv</div>
-          <div class="chip" onclick="empLvlF(2,this)">🟡 Int</div>
-          <div class="chip" onclick="empLvlF(1,this)">🔴 Beg</div>
-        </div>
-        <div class="card">
-          <div class="tbl-wrap">
-            <table>
-              <thead><tr><th>Name</th><th>Dept</th><th>Core</th><th>Auto</th><th>AI</th><th>Overall</th><th></th></tr></thead>
-              <tbody id="emp-tbl"></tbody>
-            </table>
-          </div>
-        </div>
+      <div class="hbox" style="margin-bottom:12px;">
+        <div class="hbox-title">📋 What Chat is Used For</div>
+        <p><strong>Rating queries:</strong> "Your Playwright rating is Level 1 — do you need training resources?"<br>
+        <strong>Growth plan follow-up:</strong> "Your Selenium plan is overdue — please update your status."<br>
+        <strong>Announcements:</strong> "Please complete your Q2 skill update by March 31."<br>
+        <strong>Approval:</strong> "Your skill ratings have been reviewed and approved by manager."</p>
       </div>
 
-      <!-- ═══ PAGE: HEATMAP ═══ -->
-      <div class="page" id="page-heatmap">
-        <div class="page-title">Skill Heatmap</div>
-        <div class="page-sub">Team proficiency matrix</div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;font-size:11px;color:var(--t2);">
-          <span>🟢 Advanced</span><span>🟡 Intermediate</span><span>🔴 Beginner</span>
-        </div>
-        <div class="chip-bar">
-          <div class="chip active" onclick="setHM('auto',this)">Automation</div>
-          <div class="chip" onclick="setHM('core',this)">Core Testing</div>
-          <div class="chip" onclick="setHM('ai',this)">AI Skills</div>
-        </div>
-        <div class="card">
-          <div class="hmap-wrap"><table class="hmap" id="hmap-tbl"></table></div>
-        </div>
+      <div class="hbox success">
+        <div class="hbox-title">✅ Chat Features in Admin Panel</div>
+        <p>
+        • Filter chats by: <strong>Unread</strong>, <strong>Department</strong>, <strong>Date range</strong>, <strong>Employee name</strong><br>
+        • Mark individual chats as Read / Unread<br>
+        • See <strong>online status</strong> of employee (last seen)<br>
+        • <strong>Search inside</strong> any conversation<br>
+        • <strong>Bulk message</strong>: send same message to all employees or a department<br>
+        • All messages are <strong>timestamped and stored permanently</strong> in Supabase
+        </p>
       </div>
+    </div>
 
-      <!-- ═══ PAGE: GAP ANALYSIS ═══ -->
-      <div class="page" id="page-gap">
-        <div class="page-title">Gap Analysis</div>
-        <div class="page-sub">7 skill gaps detected across the team</div>
-        <div id="gap-list"></div>
-      </div>
+    <div>
+      <div style="font-size:11px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;">Sample Chat — Admin Panel View</div>
 
-      <!-- ═══ PAGE: GROWTH PLAN ═══ -->
-      <div class="page" id="page-growth">
-        <div class="page-title">Growth Plan</div>
-        <div class="page-sub">Active learning & development tracker</div>
-        <div class="card">
-          <div class="tbl-wrap">
-            <table>
-              <thead><tr><th>Employee</th><th>Skill</th><th>Now</th><th>Target</th><th>Timeline</th><th>Status</th></tr></thead>
-              <tbody id="growth-tbl"></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- ═══ PAGE: REPORTS ═══ -->
-      <div class="page" id="page-reports">
-        <div class="page-title">Reports</div>
-        <div class="page-sub">Export skill data in various formats</div>
-        <div class="g2" id="report-grid"></div>
-      </div>
-
-      <!-- ═══ PAGE: FORM (user fills skill form) ═══ -->
-      <div class="page" id="page-form">
-        <div class="page-title" id="form-page-title">My Skill Form</div>
-        <div class="page-sub" id="form-page-sub">Fill your skill ratings honestly (1=Beginner, 2=Intermediate, 3=Advanced)</div>
-
-        <!-- Step bar -->
-        <div class="step-bar" id="step-bar">
-          <div class="step active" id="step-0"><div class="step-num">1</div><div class="step-lbl">Info</div></div>
-          <div class="step-line" id="sl-0"></div>
-          <div class="step" id="step-1"><div class="step-num">2</div><div class="step-lbl">Core</div></div>
-          <div class="step-line" id="sl-1"></div>
-          <div class="step" id="step-2"><div class="step-num">3</div><div class="step-lbl">Auto</div></div>
-          <div class="step-line" id="sl-2"></div>
-          <div class="step" id="step-3"><div class="step-num">4</div><div class="step-lbl">AI</div></div>
-          <div class="step-line" id="sl-3"></div>
-          <div class="step" id="step-4"><div class="step-num">5</div><div class="step-lbl">Growth</div></div>
-        </div>
-
-        <!-- Step 0: Basic Info -->
-        <div class="card" id="fs-0">
-          <div class="form-sec-title">Basic Information</div>
-          <div class="fi-grid">
-            <div class="fg"><label>Full Name *</label><input class="fi" id="f-name" placeholder="Magudeshwaran H"></div>
-            <div class="fg"><label>Employee ID *</label><input class="fi" id="f-id" placeholder="EMP-2024-022"></div>
-            <div class="fg"><label>Email *</label><input class="fi" type="email" id="f-email" placeholder="name@zensar.com"></div>
-            <div class="fg"><label>Experience</label>
-              <select class="fi" id="f-exp">
-                <option>0–1 year</option><option>1–3 years</option><option>3–6 years</option><option>6+ years</option>
-              </select>
-            </div>
-            <div class="fg"><label>Department</label>
-              <select class="fi" id="f-dept">
-                <option>QA</option><option>Dev</option><option>DevOps</option><option>PM</option>
-              </select>
-            </div>
-            <div class="fg"><label>Manager Name</label><input class="fi" id="f-mgr" placeholder="Manager's name"></div>
-          </div>
-          <div style="margin-top:16px;padding:12px;background:rgba(79,156,249,0.06);border-radius:10px;border:1px solid rgba(79,156,249,0.12);">
-            <div style="font-size:12px;color:var(--a1);font-weight:600;margin-bottom:6px;">📖 Rating Guide</div>
-            <div style="font-size:11px;color:var(--t2);line-height:1.7;">
-              <span style="color:var(--a5)">1 - Beginner</span>: Basic knowledge, needs guidance, 0–2 yrs<br>
-              <span style="color:var(--a4)">2 - Intermediate</span>: Works independently, handles full tasks, 2–6 yrs<br>
-              <span style="color:var(--a3)">3 - Advanced</span>: Expert, leads & mentors others
-            </div>
-          </div>
-        </div>
-
-        <!-- Step 1: Core Skills -->
-        <div class="card" id="fs-1" style="display:none">
-          <div class="form-sec-title">Core Testing Skills</div>
-          <div id="form-core"></div>
-        </div>
-
-        <!-- Step 2: Automation -->
-        <div class="card" id="fs-2" style="display:none">
-          <div class="form-sec-title">Automation Skills</div>
-          <div id="form-auto"></div>
-        </div>
-
-        <!-- Step 3: AI Skills -->
-        <div class="card" id="fs-3" style="display:none">
-          <div class="form-sec-title">AI & Emerging Skills</div>
-          <div id="form-ai"></div>
-        </div>
-
-        <!-- Step 4: Growth Plan -->
-        <div class="card" id="fs-4" style="display:none">
-          <div class="form-sec-title">Growth Plan</div>
-          <div class="fi-grid">
-            <div class="fg"><label>Skill to Improve</label><input class="fi" id="f-gskill" placeholder="e.g. Playwright"></div>
-            <div class="fg"><label>Timeline</label>
-              <select class="fi" id="f-gtl"><option>1 Month</option><option>3 Months</option><option selected>6 Months</option><option>12 Months</option></select>
-            </div>
-            <div class="fg fi" style="grid-column:1/-1;background:none;border:none;padding:0;">
-              <label>Action Plan</label>
-              <textarea class="fi" id="f-gaction" placeholder="e.g. Complete Playwright official docs + build 2 test suites..."></textarea>
-            </div>
-          </div>
-          <div style="margin-top:14px;padding:12px;background:rgba(52,211,153,0.06);border-radius:10px;border:1px solid rgba(52,211,153,0.12);">
-            <div style="font-size:12px;color:var(--a3);font-weight:600;margin-bottom:4px;">✅ Ready to submit!</div>
-            <div style="font-size:11px;color:var(--t2)">Review your ratings before submitting. Your manager will be notified.</div>
-          </div>
-        </div>
-
-        <!-- Form navigation -->
-        <div style="display:flex;justify-content:space-between;gap:12px;margin-top:14px;">
-          <button class="btn btn-ghost" id="prev-btn" onclick="prevStep()" style="display:none">← Previous</button>
-          <div style="flex:1"></div>
-          <button class="btn btn-primary" id="next-btn" onclick="nextStep()">Next →</button>
-          <button class="btn btn-success" id="submit-btn" onclick="submitForm()" style="display:none">✓ Submit Form</button>
-        </div>
-      </div>
-
-      <!-- ═══ PAGE: PROFILE ═══ -->
-      <div class="page" id="page-profile">
-        <div class="p-hero">
-          <div class="p-av" id="prof-av">MH</div>
+      <div class="chat-wrap">
+        <div class="chat-header">
+          <div class="chat-av" style="background:var(--blue)">MH</div>
           <div>
-            <div class="p-name" id="prof-name">Magudeshwaran H</div>
-            <div class="p-role" id="prof-role">AI/DS Intern · QA Track</div>
-            <div class="p-meta">
-              <div class="pm">ID: <span id="prof-id">EMP-022</span></div>
-              <div class="pm">Exp: <span id="prof-exp">0–1 year</span></div>
-              <div class="pm">Dept: <span id="prof-dept">QA</span></div>
-            </div>
+            <div style="font-size:13px;font-weight:700;color:var(--text);">Magudeshwaran H</div>
+            <div style="font-size:10px;color:var(--text3);">EMP-022 · QA · Last seen 2h ago</div>
           </div>
-          <div style="margin-left:auto;display:flex;flex-direction:column;gap:5px;align-items:flex-end;">
-            <span class="badge badge-blue">AI Capable</span>
-            <span class="badge badge-purple">Prompt Eng L3</span>
-            <span class="badge badge-green">Python L3</span>
+          <div style="margin-left:auto;display:flex;gap:6px;">
+            <span class="badge b-green">Online</span>
+            <span class="badge b-amber">2 unread</span>
           </div>
         </div>
 
-        <div class="g2" style="margin-bottom:14px">
-          <div class="card">
-            <div class="sec-head"><div class="sec-title">Skill Summary</div></div>
-            <div id="prof-bars"></div>
-          </div>
-          <div class="card">
-            <div class="sec-head"><div class="sec-title">AI Skills</div></div>
-            <div style="display:flex;justify-content:center">
-              <canvas id="prof-radar" width="240" height="200"></canvas>
-            </div>
-          </div>
+        <div class="chat-msg" style="text-align:right">
+          <div class="chat-bubble cb-manager" style="margin-left:auto">Hi Magudesh, your Playwright skill is rated Level 1. Are you planning to upskill in Q2?</div>
+          <div class="chat-meta">Manager · Mar 12, 10:30 AM · ✓✓ Read</div>
         </div>
 
-        <div class="card">
-          <div class="sec-head"><div class="sec-title">My Growth Plan</div></div>
-          <div class="tbl-wrap">
-            <table>
-              <thead><tr><th>Skill</th><th>Now</th><th>Target</th><th>Action</th><th>Status</th></tr></thead>
-              <tbody>
-                <tr><td class="td-name">Playwright</td><td><span class="badge badge-red">1</span></td><td><span class="badge badge-yellow">2</span></td><td>Official docs + 2 suites</td><td><span class="badge badge-yellow">In Progress</span></td></tr>
-                <tr><td class="td-name">LLM Testing</td><td><span class="badge badge-yellow">2</span></td><td><span class="badge badge-green">3</span></td><td>RAGAS framework</td><td><span class="badge badge-blue">Planned</span></td></tr>
-                <tr><td class="td-name">Selenium</td><td><span class="badge badge-yellow">2</span></td><td><span class="badge badge-green">3</span></td><td>POM framework build</td><td><span class="badge badge-green">On Track</span></td></tr>
-              </tbody>
-            </table>
-          </div>
+        <div class="chat-msg">
+          <div class="chat-bubble cb-employee">Yes, I have enrolled in the Playwright official course. I'll finish it by end of April and update my rating.</div>
+          <div class="chat-meta">Magudeshwaran · Mar 12, 11:15 AM</div>
         </div>
 
-        <!-- AI Recommendations -->
-        <div class="card" style="margin-top:14px">
-          <div class="sec-head"><div class="sec-title">🤖 AI Recommendations</div></div>
-          <div class="rec-card"><div class="rec-cond">Python L3 + Selenium L2</div><div class="rec-text">→ Build a complete Page Object Model framework with pytest</div></div>
-          <div class="rec-card"><div class="rec-cond">Prompt Eng L3 + LLM Testing L2</div><div class="rec-text">→ Learn RAGAS evaluation for LLM output quality testing</div></div>
-          <div class="rec-card"><div class="rec-cond">Playwright L1 + JavaScript L1</div><div class="rec-text">→ Playwright TypeScript beginner course (3 hrs)</div></div>
+        <div class="chat-msg" style="text-align:right">
+          <div class="chat-bubble cb-manager" style="margin-left:auto">Great! I've updated your growth plan timeline to April 30. Let me know if you need resources.</div>
+          <div class="chat-meta">Manager · Mar 12, 11:45 AM · ✓✓ Read</div>
+        </div>
+
+        <div class="chat-msg">
+          <div class="chat-bubble cb-system">⚡ System: Magudeshwaran H updated growth plan status to "In Progress" · Mar 14</div>
+        </div>
+
+        <div class="chat-msg">
+          <div class="chat-bubble cb-employee">Done! Completed Module 1 and 2. Writing my first test suite now.</div>
+          <div class="chat-meta">Magudeshwaran · Mar 16, 3:00 PM · 🔵 Unread</div>
         </div>
       </div>
 
-      <!-- ═══ PAGE: ADMIN PANEL ═══ -->
-      <div class="page" id="page-admin">
-        <div class="page-title">Admin Panel</div>
-        <div class="page-sub">Manage users, skills & system settings</div>
-
-        <div class="view-tabs">
-          <button class="vtab active" onclick="adminTab('users',this)">👥 Users</button>
-          <button class="vtab" onclick="adminTab('skills',this)">⚙ Skills</button>
-          <button class="vtab" onclick="adminTab('notifs',this)">🔔 Alerts</button>
-          <button class="vtab" onclick="adminTab('settings',this)">⚙ Settings</button>
-        </div>
-
-        <!-- Users sub-tab -->
-        <div id="at-users">
-          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;">
-            <input class="fi" style="flex:1;min-width:160px;padding:8px 12px;font-size:13px" placeholder="Search by name or ID..." id="admin-search" oninput="adminSearch(this.value)">
-            <button class="btn btn-primary btn-sm" onclick="goPage('form')">＋ Add Employee</button>
+      <div style="margin-top:12px;">
+        <div class="filter-demo">
+          <div class="fd-title">Chat Filters in Admin Panel</div>
+          <div class="fd-chips">
+            <div class="chip active">All Chats</div>
+            <div class="chip">Unread</div>
+            <div class="chip">QA Dept</div>
+            <div class="chip">This Week</div>
           </div>
-          <div class="card">
-            <div class="tbl-wrap">
-              <table>
-                <thead><tr><th>Name</th><th>ID</th><th>Dept</th><th>Overall</th><th>Last Updated</th><th>Action</th></tr></thead>
-                <tbody id="admin-emp-tbl"></tbody>
-              </table>
-            </div>
-          </div>
+          <div class="fd-result"><strong>Showing 12 conversations</strong> · 3 unread · Sorted by latest</div>
         </div>
+      </div>
+    </div>
+  </div>
 
-        <!-- Skills sub-tab -->
-        <div id="at-skills" style="display:none">
-          <div class="g3">
-            <div class="card">
-              <div class="sec-head"><div class="sec-title">Core Testing</div><span class="badge badge-blue">9 skills</span></div>
-              <div id="admin-core-list"></div>
-            </div>
-            <div class="card">
-              <div class="sec-head"><div class="sec-title">Automation</div><span class="badge badge-green">9 skills</span></div>
-              <div id="admin-auto-list"></div>
-            </div>
-            <div class="card">
-              <div class="sec-head"><div class="sec-title">AI & Emerging</div><span class="badge badge-purple">8 skills</span></div>
-              <div id="admin-ai-list"></div>
-            </div>
-          </div>
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr><th>Feature</th><th>Employee sees</th><th>Admin sees</th><th>Stored in DB</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="td-name">Send message</td><td>✓ Can message manager</td><td>✓ Can message anyone</td><td>messages table</td></tr>
+        <tr><td class="td-name">Message history</td><td>Own conversation only</td><td>All conversations</td><td>messages table</td></tr>
+        <tr><td class="td-name">Read receipts</td><td>Sees if manager read</td><td>Sees if employee read</td><td>is_read column</td></tr>
+        <tr><td class="td-name">Notifications</td><td>Badge on profile icon</td><td>Badge on chat icon</td><td>notifications table</td></tr>
+        <tr><td class="td-name">System messages</td><td>Not visible</td><td>Auto-generated alerts</td><td>messages table (type=system)</td></tr>
+        <tr><td class="td-name">Bulk message</td><td>Receives only</td><td>Can send to all/dept</td><td>broadcast_id column</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══ FORM FIELDS ══ -->
+<div id="form-fields" class="section">
+  <div class="section-id">Section 08</div>
+  <div class="section-title">All Form Fields — Complete List</div>
+
+  <div class="tbl-wrap" style="margin-bottom:16px;">
+    <table>
+      <thead><tr><th>Field</th><th>Type</th><th>Required</th><th>Options / Example</th><th>Saved to</th></tr></thead>
+      <tbody>
+        <tr><td colspan="5" style="background:var(--blue-light);color:var(--blue);font-weight:700;font-size:11px;letter-spacing:1px;">BASIC INFORMATION</td></tr>
+        <tr><td class="td-name">Full Name</td><td>Text input</td><td><span class="badge b-red">Yes</span></td><td>Magudeshwaran H</td><td class="td-code">employees.name</td></tr>
+        <tr><td class="td-name">Employee ID</td><td>Text input</td><td><span class="badge b-red">Yes</span></td><td>EMP-022</td><td class="td-code">employees.employee_id</td></tr>
+        <tr><td class="td-name">Email</td><td>Email input</td><td><span class="badge b-red">Yes</span></td><td>name@zensar.com</td><td class="td-code">employees.email</td></tr>
+        <tr><td class="td-name">Experience</td><td>Dropdown</td><td><span class="badge b-red">Yes</span></td><td>0–1 / 1–3 / 3–6 / 6+ years</td><td class="td-code">employees.experience</td></tr>
+        <tr><td class="td-name">Department</td><td>Dropdown</td><td><span class="badge b-red">Yes</span></td><td>QA / Dev / DevOps / PM</td><td class="td-code">employees.department</td></tr>
+        <tr><td class="td-name">Manager Name</td><td>Text input</td><td><span class="badge b-amber">No</span></td><td>Anand J</td><td class="td-code">employees.manager_name</td></tr>
+        <tr><td colspan="5" style="background:#ecfdf5;color:#065f46;font-weight:700;font-size:11px;letter-spacing:1px;">CORE TESTING SKILLS (each rated 1, 2, or 3)</td></tr>
+        <tr><td>Functional Testing</td><td>Button 1/2/3</td><td><span class="badge b-red">Yes</span></td><td>1=Basic, 2=Independent, 3=Expert</td><td class="td-code">skill_ratings</td></tr>
+        <tr><td>Banking Domain</td><td>Button 1/2/3</td><td><span class="badge b-amber">Optional</span></td><td>BFSI project knowledge</td><td class="td-code">skill_ratings</td></tr>
+        <tr><td>Insurance Domain</td><td>Button 1/2/3</td><td><span class="badge b-amber">Optional</span></td><td>Claims, underwriting flows</td><td class="td-code">skill_ratings</td></tr>
+        <tr><td>Test Case Design</td><td>Button 1/2/3</td><td><span class="badge b-red">Yes</span></td><td>BVA, EP, decision tables</td><td class="td-code">skill_ratings</td></tr>
+        <tr><td>Defect Management</td><td>Button 1/2/3</td><td><span class="badge b-red">Yes</span></td><td>JIRA lifecycle</td><td class="td-code">skill_ratings</td></tr>
+        <tr><td>Test Planning</td><td>Button 1/2/3</td><td><span class="badge b-red">Yes</span></td><td>Strategy, estimation</td><td class="td-code">skill_ratings</td></tr>
+        <tr><td>Agile Lifecycle</td><td>Button 1/2/3</td><td><span class="badge b-red">Yes</span></td><td>Scrum, Kanban ceremonies</td><td class="td-code">skill_ratings</td></tr>
+        <tr><td>Security Testing</td><td>Button 1/2/3</td><td><span class="badge b-amber">Optional</span></td><td>OWASP basics</td><td class="td-code">skill_ratings</td></tr>
+        <tr><td>Performance Testing</td><td>Button 1/2/3</td><td><span class="badge b-amber">Optional</span></td><td>JMeter / k6</td><td class="td-code">skill_ratings</td></tr>
+        <tr><td colspan="5" style="background:#fef3c7;color:#92400e;font-weight:700;font-size:11px;letter-spacing:1px;">AUTOMATION SKILLS (each rated 1, 2, or 3)</td></tr>
+        <tr><td>Selenium WebDriver</td><td>Button 1/2/3</td><td><span class="badge b-red">Yes</span></td><td>UI test automation</td><td class="td-code">skill_ratings</td></tr>
+        <tr><td>Playwright</td><td>Button 1/2/3</td><td><span class="badge b-red">Yes</span></td><td>Modern browser automation</td><td class="td-code">skill_ratings</td></tr>
+        <tr><td>Cypress</td><td>Button 1/2/3</td><td><span class="badge b-amber">Optional</span></td><td>JS-native E2E</td><td class="td-code">skill_ratings</td></tr>
+        <tr><td>Appium</td><td>Button 1/2/3</td><td><span class="badge b-amber">Optional</span></td><td>Mobile automation</td><td class="td-code">skill_ratings</td></tr>
+        <tr><td>Java</td><td>Button 1/2/3</td><td><span class="badge b-red">Yes</span></td><td>OOP for automation</td><td class="td-code">skill_ratings</td></tr>
+        <tr><td>Python</td><td>Button 1/2/3</td><td><span class="badge b-red">Yes</span></td><td>pytest, scripting</td><td class="td-code">skill_ratings</td></tr>
+        <tr><td>JavaScript</td><td>Button 1/2/3</td><td><span class="badge b-red">Yes</span></td><td>Node, async/await</td><td class="td-code">skill_ratings</td></tr>
+        <tr><td>Framework Design</td><td>Button 1/2/3</td><td><span class="badge b-amber">Optional</span></td><td>POM, hybrid, BDD</td><td class="td-code">skill_ratings</td></tr>
+        <tr><td>CI/CD Integration</td><td>Button 1/2/3</td><td><span class="badge b-amber">Optional</span></td><td>Jenkins, GitHub Actions</td><td class="td-code">skill_ratings</td></tr>
+        <tr><td colspan="5" style="background:#f5f3ff;color:#4c1d95;font-weight:700;font-size:11px;letter-spacing:1px;">AI & EMERGING SKILLS (each rated 1, 2, or 3)</td></tr>
+        <tr><td>AI Test Case Gen</td><td>Button 1/2/3</td><td><span class="badge b-amber">Optional</span></td><td>ChatGPT for test scenarios</td><td class="td-code">skill_ratings</td></tr>
+        <tr><td>AI Coding Assistants</td><td>Button 1/2/3</td><td><span class="badge b-amber">Optional</span></td><td>GitHub Copilot, Cursor</td><td class="td-code">skill_ratings</td></tr>
+        <tr><td>AI Automation Tools</td><td>Button 1/2/3</td><td><span class="badge b-amber">Optional</span></td><td>Mabl, Testim</td><td class="td-code">skill_ratings</td></tr>
+        <tr><td>Prompt Engineering</td><td>Button 1/2/3</td><td><span class="badge b-amber">Optional</span></td><td>Zero-shot, few-shot prompts</td><td class="td-code">skill_ratings</td></tr>
+        <tr><td>LLM Testing</td><td>Button 1/2/3</td><td><span class="badge b-amber">Optional</span></td><td>RAGAS evaluation</td><td class="td-code">skill_ratings</td></tr>
+        <tr><td>Zense AI</td><td>Button 1/2/3</td><td><span class="badge b-amber">Optional</span></td><td>Zensar internal AI tools</td><td class="td-code">skill_ratings</td></tr>
+        <tr><td>AI Test Data Gen</td><td>Button 1/2/3</td><td><span class="badge b-amber">Optional</span></td><td>Synthetic data, Faker</td><td class="td-code">skill_ratings</td></tr>
+        <tr><td>Prompt Optimization</td><td>Button 1/2/3</td><td><span class="badge b-amber">Optional</span></td><td>RAG pipelines</td><td class="td-code">skill_ratings</td></tr>
+        <tr><td colspan="5" style="background:#ecfdf5;color:#065f46;font-weight:700;font-size:11px;letter-spacing:1px;">GROWTH PLAN</td></tr>
+        <tr><td class="td-name">Skill to Improve</td><td>Text / dropdown</td><td><span class="badge b-red">Yes</span></td><td>Playwright</td><td class="td-code">growth_plans.skill_name</td></tr>
+        <tr><td class="td-name">Action Plan</td><td>Textarea</td><td><span class="badge b-red">Yes</span></td><td>Complete official Playwright docs + 2 test suites</td><td class="td-code">growth_plans.action_plan</td></tr>
+        <tr><td class="td-name">Timeline</td><td>Dropdown</td><td><span class="badge b-red">Yes</span></td><td>1 / 3 / 6 / 12 months</td><td class="td-code">growth_plans.timeline</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══ TABLES ══ -->
+<div id="tables" class="section">
+  <div class="section-id">Section 09</div>
+  <div class="section-title">All Tables in the App</div>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Table Name</th><th>Lives on page</th><th>Columns shown</th><th>Can be filtered by</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="td-name">Employees table</td>
+          <td><span class="badge b-blue">Employees page</span></td>
+          <td>Name, ID, Dept, Experience, Core Avg, Auto Avg, AI Avg, Overall</td>
+          <td>Dept, Experience, Overall level (1/2/3), Name search</td>
+          <td>Manager sees every employee's skill score at a glance</td>
+        </tr>
+        <tr>
+          <td class="td-name">Recent activity</td>
+          <td><span class="badge b-blue">Dashboard</span></td>
+          <td>Employee, Skill updated, Level, Category, Date</td>
+          <td>Not filtered (shows last 5)</td>
+          <td>Shows who just submitted a skill update</td>
+        </tr>
+        <tr>
+          <td class="td-name">Growth plan table</td>
+          <td><span class="badge b-green">Growth plan page</span></td>
+          <td>Employee, Skill, Current, Target, Progress bar, Timeline, Action, Status</td>
+          <td>Status (Planned/In Progress/Done), Employee name</td>
+          <td>Tracks every person's learning goal and progress</td>
+        </tr>
+        <tr>
+          <td class="td-name">Admin users table</td>
+          <td><span class="badge b-amber">Admin → Users tab</span></td>
+          <td>Name, ID, Dept, Overall score, Last updated, Actions (View/Edit/Delete)</td>
+          <td>Name search, Dept dropdown</td>
+          <td>Admin manages all employee records</td>
+        </tr>
+        <tr>
+          <td class="td-name">Employee detail popup</td>
+          <td><span class="badge b-purple">Opens on row click</span></td>
+          <td>Skill bars (all 26), Core/Auto/AI averages, growth plan status</td>
+          <td>Not filterable — shows one person</td>
+          <td>Deep-dive on one employee without leaving the page</td>
+        </tr>
+        <tr>
+          <td class="td-name">Gap analysis table</td>
+          <td><span class="badge b-red">Gap Analysis page</span></td>
+          <td>Skill, Current avg, Target, Gap size, Priority, Recommendation</td>
+          <td>Priority (High/Med/Low), Category</td>
+          <td>Shows every skill below target with training suggestion</td>
+        </tr>
+        <tr>
+          <td class="td-name">Profile growth plan</td>
+          <td><span class="badge b-blue">Employee profile</span></td>
+          <td>Skill, Current level, Target level, Action, Status</td>
+          <td>Not filterable — shows own data only</td>
+          <td>Employee tracks their own progress</td>
+        </tr>
+        <tr>
+          <td class="td-name">Chat history table</td>
+          <td><span class="badge b-teal">Admin → Chat panel</span></td>
+          <td>Employee name, Last message preview, Time, Unread count, Status</td>
+          <td>Unread only, Dept, Date range, Employee name search</td>
+          <td>Manager sees all active conversations in one list</td>
+        </tr>
+        <tr>
+          <td class="td-name">Notifications table</td>
+          <td><span class="badge b-amber">Admin → Alerts tab</span></td>
+          <td>Message, Recipient, Time sent, Read status</td>
+          <td>Sent/Received, Read/Unread, Date range</td>
+          <td>All system and manual notifications in one view</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══ VISUALS ══ -->
+<div id="visuals" class="section">
+  <div class="section-id">Section 10</div>
+  <div class="section-title">All Visuals — What Each Shows and Why</div>
+
+  <div class="g2" style="margin-bottom:14px;">
+
+    <div class="vis-card">
+      <div class="vis-head">
+        Automation Skills Bar Chart
+        <span class="badge b-blue">Dashboard</span>
+      </div>
+      <div class="vis-body">
+        <div class="sb-row"><div class="sb-label">Selenium</div><div class="sb-track"><div class="sb-fill" style="width:80%;background:#059669;"></div></div><div class="sb-val" style="color:#059669;">2.4</div></div>
+        <div class="sb-row"><div class="sb-label">Playwright</div><div class="sb-track"><div class="sb-fill" style="width:43%;background:#d97706;"></div></div><div class="sb-val" style="color:#d97706;">1.3</div></div>
+        <div class="sb-row"><div class="sb-label">Python</div><div class="sb-track"><div class="sb-fill" style="width:73%;background:#059669;"></div></div><div class="sb-val" style="color:#059669;">2.2</div></div>
+        <div class="sb-row"><div class="sb-label">Cypress</div><div class="sb-track"><div class="sb-fill" style="width:53%;background:#d97706;"></div></div><div class="sb-val" style="color:#d97706;">1.6</div></div>
+        <div class="sb-row"><div class="sb-label">CI/CD</div><div class="sb-track"><div class="sb-fill" style="width:60%;background:#d97706;"></div></div><div class="sb-val" style="color:#d97706;">1.8</div></div>
+      </div>
+      <div class="vis-why"><strong>Why:</strong> Manager immediately sees Playwright is weak (1.3) vs Selenium which is strong (2.4). Drives training decisions without reading any numbers in detail.</div>
+    </div>
+
+    <div class="vis-card">
+      <div class="vis-head">
+        Skill Heatmap Sample
+        <span class="badge b-amber">Heatmap page</span>
+      </div>
+      <div class="vis-body">
+        <div class="hmap-wrap">
+          <table class="hmap">
+            <thead><tr><th></th><th>Selenium</th><th>Playwright</th><th>Python</th><th>AI Test</th><th>Prompt</th></tr></thead>
+            <tbody>
+              <tr><td class="rl">Ravi K</td><td class="hc hc3">3</td><td class="hc hc2">2</td><td class="hc hc2">2</td><td class="hc hc2">2</td><td class="hc hc3">3</td></tr>
+              <tr><td class="rl">Arjun S</td><td class="hc hc2">2</td><td class="hc hc3">3</td><td class="hc hc3">3</td><td class="hc hc3">3</td><td class="hc hc3">3</td></tr>
+              <tr><td class="rl">Priya M</td><td class="hc hc3">3</td><td class="hc hc2">2</td><td class="hc hc2">2</td><td class="hc hc2">2</td><td class="hc hc2">2</td></tr>
+              <tr><td class="rl">Karthik V</td><td class="hc hc2">2</td><td class="hc hc1">1</td><td class="hc hc2">2</td><td class="hc hc2">2</td><td class="hc hc2">2</td></tr>
+              <tr><td class="rl">Magudesh</td><td class="hc hc2">2</td><td class="hc hc1">1</td><td class="hc hc3">3</td><td class="hc hc2">2</td><td class="hc hc3">3</td></tr>
+            </tbody>
+          </table>
         </div>
-
-        <!-- Notifications sub-tab -->
-        <div id="at-notifs" style="display:none">
-          <div class="g2">
-            <div class="card">
-              <div class="sec-head"><div class="sec-title">Active Alerts</div><button class="btn btn-ghost btn-sm" onclick="showToast('All marked as read')">Mark all read</button></div>
-              <div id="admin-notif-list"></div>
-            </div>
-            <div class="card">
-              <div class="sec-head"><div class="sec-title">Send Notification</div></div>
-              <div class="fg"><label>Recipient</label>
-                <select class="fi"><option>All Employees</option><option>Managers Only</option><option>Specific Department</option></select>
-              </div>
-              <div class="fg" style="margin-top:10px"><label>Message</label>
-                <textarea class="fi" placeholder="Enter notification message..."></textarea>
-              </div>
-              <button class="btn btn-primary" style="margin-top:10px;width:100%" onclick="showToast('Notification sent to team!')">Send Notification</button>
-            </div>
-          </div>
+        <div style="display:flex;gap:8px;margin-top:6px;flex-wrap:wrap;">
+          <span style="font-size:11px;background:#d1fae5;color:#065f46;padding:2px 9px;border-radius:4px;font-weight:600;">3 Advanced</span>
+          <span style="font-size:11px;background:#fef3c7;color:#92400e;padding:2px 9px;border-radius:4px;font-weight:600;">2 Intermediate</span>
+          <span style="font-size:11px;background:#fee2e2;color:#991b1b;padding:2px 9px;border-radius:4px;font-weight:600;">1 Beginner</span>
         </div>
+      </div>
+      <div class="vis-why"><strong>Why:</strong> Entire Playwright column is red/yellow — instantly shows team needs Playwright training. No numbers, no reading, pattern visible in 2 seconds.</div>
+    </div>
 
-        <!-- Settings sub-tab -->
-        <div id="at-settings" style="display:none">
-          <div class="g2">
-            <div class="card">
-              <div class="sec-head"><div class="sec-title">Rating Cycle</div></div>
-              <div class="fg"><label>Update Frequency</label>
-                <select class="fi"><option>Every 3 months</option><option>Every 6 months</option><option>Monthly</option></select>
-              </div>
-              <div class="fg" style="margin-top:10px"><label>Reminder (days before)</label>
-                <input class="fi" type="number" value="7" min="1" max="30">
-              </div>
-              <button class="btn btn-primary btn-sm" style="margin-top:12px" onclick="showToast('Settings saved!')">Save</button>
-            </div>
-            <div class="card">
-              <div class="sec-head"><div class="sec-title">Target Levels</div></div>
-              <div style="font-size:12px;color:var(--t2);margin-bottom:10px;">Set minimum target levels for each skill category:</div>
-              <div class="fg"><label>Core Testing Target</label>
-                <select class="fi"><option>Level 2</option><option>Level 3</option></select>
-              </div>
-              <div class="fg" style="margin-top:8px"><label>Automation Target</label>
-                <select class="fi"><option>Level 2</option><option>Level 3</option></select>
-              </div>
-              <div class="fg" style="margin-top:8px"><label>AI Skills Target</label>
-                <select class="fi"><option>Level 1</option><option selected>Level 2</option></select>
-              </div>
-              <button class="btn btn-primary btn-sm" style="margin-top:12px" onclick="showToast('Targets updated!')">Update Targets</button>
-            </div>
+    <div class="vis-card">
+      <div class="vis-head">
+        Skill Distribution Donut
+        <span class="badge b-blue">Dashboard</span>
+      </div>
+      <div class="vis-body">
+        <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+          <canvas id="donut" width="110" height="110"></canvas>
+          <div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:7px;font-size:12px;"><div style="width:10px;height:10px;border-radius:50%;background:#059669;"></div>Advanced (3) — <strong>28%</strong></div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:7px;font-size:12px;"><div style="width:10px;height:10px;border-radius:50%;background:#d97706;"></div>Intermediate (2) — <strong>45%</strong></div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:12px;"><div style="width:10px;height:10px;border-radius:50%;background:#dc2626;"></div>Beginner (1) — <strong>27%</strong></div>
           </div>
         </div>
       </div>
+      <div class="vis-why"><strong>Why:</strong> One number tells the manager the overall team maturity. 28% Advanced is the headline. Manager can set a target: "Get to 40% Advanced by Q3."</div>
+    </div>
 
-    </div><!-- /content -->
-  </div><!-- /content-area -->
+    <div class="vis-card">
+      <div class="vis-head">
+        Gap Analysis Bar
+        <span class="badge b-red">Gap Analysis page</span>
+      </div>
+      <div class="vis-body">
+        <div style="margin-bottom:12px;">
+          <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;">
+            <span style="font-weight:600;">Playwright</span>
+            <span class="badge b-red">High Priority</span>
+          </div>
+          <div style="position:relative;background:var(--s2);border-radius:99px;height:10px;margin-bottom:4px;">
+            <div style="width:43%;height:100%;background:#d97706;border-radius:99px;"></div>
+            <div style="position:absolute;top:-4px;left:83%;height:18px;width:2px;background:#059669;border-radius:2px;"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text3);">
+            <span>Current: 1.3</span><span style="color:#059669;">▎Target: 2.5</span><span>Gap: 1.2 levels</span>
+          </div>
+          <div style="font-size:11px;color:var(--text3);margin-top:5px;">💡 Recommended: Playwright Advanced Course (Udemy)</div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;">
+            <span style="font-weight:600;">LLM Testing</span>
+            <span class="badge b-amber">Medium Priority</span>
+          </div>
+          <div style="position:relative;background:var(--s2);border-radius:99px;height:10px;margin-bottom:4px;">
+            <div style="width:53%;height:100%;background:#d97706;border-radius:99px;"></div>
+            <div style="position:absolute;top:-4px;left:83%;height:18px;width:2px;background:#059669;border-radius:2px;"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text3);">
+            <span>Current: 1.6</span><span style="color:#059669;">▎Target: 2.5</span><span>Gap: 0.9 levels</span>
+          </div>
+          <div style="font-size:11px;color:var(--text3);margin-top:5px;">💡 Recommended: RAGAS Evaluation Framework</div>
+        </div>
+      </div>
+      <div class="vis-why"><strong>Why:</strong> Shows exactly how far the team is from target. Green marker = target, yellow bar = current. Manager can directly copy the recommendation to an L&D request.</div>
+    </div>
 
-  <!-- BOTTOM NAV (mobile) -->
-  <nav class="bottom-nav" id="bottom-nav"></nav>
+  </div>
 
-</div><!-- /app -->
-
-<!-- MODAL: Employee detail -->
-<div class="modal-bg" id="modal-emp">
-  <div class="modal">
-    <div class="modal-close" onclick="closeModal('modal-emp')">✕</div>
-    <div id="modal-emp-body"></div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Visual</th><th>Page</th><th>X-axis / Rows</th><th>Y-axis / Cols</th><th>Key insight it gives</th></tr></thead>
+      <tbody>
+        <tr><td class="td-name">Automation bar chart</td><td>Dashboard</td><td>Skill names</td><td>Team avg (1–3)</td><td>Which tools are strong vs weak</td></tr>
+        <tr><td class="td-name">Skill donut chart</td><td>Dashboard</td><td>—</td><td>% Beginner/Mid/Adv</td><td>Overall team maturity level</td></tr>
+        <tr><td class="td-name">AI skills radar</td><td>Dashboard</td><td>AI skill names (8)</td><td>Team avg per skill</td><td>AI readiness shape — weak axis = gap</td></tr>
+        <tr><td class="td-name">Skill heatmap</td><td>Heatmap</td><td>Employees (rows)</td><td>Skills (columns)</td><td>Every gap for every person, simultaneously</td></tr>
+        <tr><td class="td-name">Gap analysis bars</td><td>Gap Analysis</td><td>Gap skills</td><td>Current vs target</td><td>Exact training priority + recommendation</td></tr>
+        <tr><td class="td-name">Profile skill bars</td><td>Profile</td><td>Skill names</td><td>Level (1–3)</td><td>Employee sees own strengths and weaknesses</td></tr>
+        <tr><td class="td-name">Profile radar (AI)</td><td>Profile</td><td>AI skills (8)</td><td>Employee's level</td><td>Personal AI readiness — visible gaps</td></tr>
+        <tr><td class="td-name">Growth plan bar</td><td>Growth Plan</td><td>Current level</td><td>Target marker</td><td>How far each plan has progressed</td></tr>
+        <tr><td class="td-name">4 stat cards</td><td>Dashboard</td><td>—</td><td>—</td><td>Quick headline: team count, avg, gaps, plans</td></tr>
+        <tr><td class="td-name">Top performers list</td><td>Dashboard</td><td>Employee names</td><td>Overall score</td><td>Recognise high performers quickly</td></tr>
+      </tbody>
+    </table>
   </div>
 </div>
 
-<!-- MODAL: Notifications -->
-<div class="modal-bg" id="modal-notif">
-  <div class="modal">
-    <div class="modal-close" onclick="closeModal('modal-notif')">✕</div>
-    <div style="font-size:16px;font-weight:700;margin-bottom:14px;">🔔 Notifications</div>
-    <div id="notif-body"></div>
+<div class="divider"></div>
+
+<!-- ══ FILTERS ══ -->
+<div id="filters" class="section">
+  <div class="section-id">Section 11</div>
+  <div class="section-title">All Filters — Explained in Detail</div>
+  <div class="section-desc">Every filter in the system, what page it lives on, what it does, and what result it gives.</div>
+
+  <div class="tbl-wrap" style="margin-bottom:20px;">
+    <table>
+      <thead><tr><th>Filter Name</th><th>Page</th><th>Control Type</th><th>Options</th><th>Result When Applied</th></tr></thead>
+      <tbody>
+        <tr><td class="td-name">Department filter</td><td>Employees, Admin Users</td><td>Dropdown</td><td>All / QA / Dev / DevOps / PM</td><td>Table shows only employees from selected dept</td></tr>
+        <tr><td class="td-name">Experience filter</td><td>Employees</td><td>Dropdown</td><td>All / 0–1yr / 1–3yr / 3–6yr / 6+yr</td><td>Shows employees matching experience bracket</td></tr>
+        <tr><td class="td-name">Overall level filter</td><td>Employees</td><td>Chip buttons</td><td>All / Beginner / Intermediate / Advanced</td><td>Shows employees whose overall score matches level</td></tr>
+        <tr><td class="td-name">Name search</td><td>Employees, Admin, Chat</td><td>Text input (real-time)</td><td>Any text</td><td>Fuzzy match on name or employee ID as user types</td></tr>
+        <tr><td class="td-name">Heatmap category</td><td>Heatmap</td><td>Tab chips</td><td>All / Core Testing / Automation / AI Skills</td><td>Swaps all columns to show only selected skill category</td></tr>
+        <tr><td class="td-name">Gap priority filter</td><td>Gap Analysis</td><td>Chip buttons</td><td>All / High / Medium / Low</td><td>Shows only gaps of selected priority level</td></tr>
+        <tr><td class="td-name">Growth plan status</td><td>Growth Plan</td><td>Dropdown</td><td>All / Planned / In Progress / On Track / Done</td><td>Shows only plans with matching status</td></tr>
+        <tr><td class="td-name">Chat unread filter</td><td>Chat panel</td><td>Chip toggle</td><td>All / Unread only</td><td>Shows only conversations with unread messages</td></tr>
+        <tr><td class="td-name">Chat dept filter</td><td>Chat panel</td><td>Dropdown</td><td>All / QA / Dev / DevOps</td><td>Shows chats from employees in that department</td></tr>
+        <tr><td class="td-name">Chat date filter</td><td>Chat panel</td><td>Date range picker</td><td>Custom date range</td><td>Shows only chats with messages in that time period</td></tr>
+        <tr><td class="td-name">Chat search</td><td>Chat panel</td><td>Text input</td><td>Any keyword</td><td>Searches inside all message content across all chats</td></tr>
+        <tr><td class="td-name">Report type</td><td>Reports</td><td>Card click</td><td>6 report cards</td><td>Downloads selected report type in the chosen format</td></tr>
+        <tr><td class="td-name">Admin skill category</td><td>Admin → Skills tab</td><td>Tab chips</td><td>Core / Automation / AI</td><td>Shows master skill list for that category</td></tr>
+        <tr><td class="td-name">Notification type</td><td>Admin → Alerts tab</td><td>Chip filter</td><td>All / Unread / System / Manual</td><td>Filters notification list by type or read status</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="margin-bottom:12px;">
+    <div style="font-size:12px;font-weight:700;color:var(--text2);margin-bottom:8px;">Example: Finding all QA employees who are Beginners in Automation</div>
+    <div class="filter-demo">
+      <div class="fd-title">Active filters</div>
+      <div class="fd-chips">
+        <div class="chip active">QA Dept</div>
+        <div class="chip active">🔴 Beginner</div>
+        <div class="chip">Automation skills</div>
+      </div>
+      <div class="fd-result"><strong>Result: 3 employees match</strong> — Karthik V, Saranya P, Magudeshwaran H · Auto-avg below 1.5 · Action: Enroll in Selenium Basics</div>
+    </div>
+  </div>
+
+  <div>
+    <div style="font-size:12px;font-weight:700;color:var(--text2);margin-bottom:8px;">Example: Finding unread chats from QA team this week</div>
+    <div class="filter-demo">
+      <div class="fd-title">Chat panel filters</div>
+      <div class="fd-chips">
+        <div class="chip active">Unread</div>
+        <div class="chip active">QA Dept</div>
+        <div class="chip active">This Week</div>
+      </div>
+      <div class="fd-result"><strong>Result: 2 unread conversations</strong> — Magudeshwaran H (1 unread) · Karthik V (3 unread) · Sorted by latest message</div>
+    </div>
   </div>
 </div>
 
-<!-- TOAST -->
-<div class="toast" id="toast"></div>
+<div class="divider"></div>
+
+<!-- ══ DATABASE ══ -->
+<div id="database" class="section">
+  <div class="section-id">Section 12</div>
+  <div class="section-title">Supabase Database — All Tables</div>
+
+  <div class="db-card">
+    <div class="db-head">
+      <div>
+        <div class="db-head-name">employees</div>
+        <div class="db-head-desc">One row per team member</div>
+      </div>
+      <div class="db-head-badge">primary table</div>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Column</th><th>Type</th><th>Required</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td class="td-code">id</td><td>uuid</td><td><span class="badge b-red">Yes</span></td><td>Auto-generated primary key</td></tr>
+          <tr><td class="td-code">name</td><td>text</td><td><span class="badge b-red">Yes</span></td><td>Full name</td></tr>
+          <tr><td class="td-code">employee_id</td><td>text, unique</td><td><span class="badge b-red">Yes</span></td><td>EMP-022 format</td></tr>
+          <tr><td class="td-code">email</td><td>text, unique</td><td><span class="badge b-red">Yes</span></td><td>Used for Supabase Auth login</td></tr>
+          <tr><td class="td-code">role</td><td>text</td><td><span class="badge b-red">Yes</span></td><td>employee or admin — controls portal access</td></tr>
+          <tr><td class="td-code">department</td><td>text</td><td><span class="badge b-red">Yes</span></td><td>QA / Dev / DevOps / PM</td></tr>
+          <tr><td class="td-code">experience</td><td>text</td><td><span class="badge b-red">Yes</span></td><td>0–1 year etc.</td></tr>
+          <tr><td class="td-code">manager_name</td><td>text</td><td><span class="badge b-amber">No</span></td><td>Optional</td></tr>
+          <tr><td class="td-code">created_at</td><td>timestamptz</td><td>Auto</td><td>Auto-set by Supabase</td></tr>
+          <tr><td class="td-code">updated_at</td><td>timestamptz</td><td>Auto</td><td>Updated on every form submit</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="db-card">
+    <div class="db-head">
+      <div>
+        <div class="db-head-name">skill_ratings</div>
+        <div class="db-head-desc">One row per employee per skill — 26 rows per person</div>
+      </div>
+      <div class="db-head-badge">core data</div>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Column</th><th>Type</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td class="td-code">id</td><td>uuid</td><td>Auto primary key</td></tr>
+          <tr><td class="td-code">employee_id</td><td>uuid (FK → employees.id)</td><td>Links rating to employee</td></tr>
+          <tr><td class="td-code">skill_name</td><td>text</td><td>e.g. "Selenium", "Prompt Engineering"</td></tr>
+          <tr><td class="td-code">skill_category</td><td>text</td><td>core / automation / ai</td></tr>
+          <tr><td class="td-code">level</td><td>integer (1, 2, or 3)</td><td>The actual rating</td></tr>
+          <tr><td class="td-code">rated_at</td><td>timestamptz</td><td>When they last submitted</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="db-card">
+    <div class="db-head">
+      <div>
+        <div class="db-head-name">growth_plans</div>
+        <div class="db-head-desc">One row per employee's growth goal</div>
+      </div>
+      <div class="db-head-badge">planning</div>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Column</th><th>Type</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td class="td-code">id</td><td>uuid</td><td>Auto primary key</td></tr>
+          <tr><td class="td-code">employee_id</td><td>uuid (FK)</td><td>Linked employee</td></tr>
+          <tr><td class="td-code">skill_name</td><td>text</td><td>Skill being worked on</td></tr>
+          <tr><td class="td-code">current_level</td><td>integer</td><td>1, 2, or 3</td></tr>
+          <tr><td class="td-code">target_level</td><td>integer</td><td>1, 2, or 3</td></tr>
+          <tr><td class="td-code">action_plan</td><td>text</td><td>What the employee will do</td></tr>
+          <tr><td class="td-code">timeline</td><td>text</td><td>1 Month / 3 Months / 6 Months / 12 Months</td></tr>
+          <tr><td class="td-code">status</td><td>text</td><td>Planned / In Progress / On Track / Done</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="db-card">
+    <div class="db-head">
+      <div>
+        <div class="db-head-name">messages</div>
+        <div class="db-head-desc">All chat messages between manager and employees</div>
+      </div>
+      <div class="db-head-badge">chat system</div>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Column</th><th>Type</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td class="td-code">id</td><td>uuid</td><td>Auto primary key</td></tr>
+          <tr><td class="td-code">sender_id</td><td>uuid (FK → employees.id)</td><td>Who sent the message</td></tr>
+          <tr><td class="td-code">receiver_id</td><td>uuid (FK → employees.id)</td><td>Who receives the message</td></tr>
+          <tr><td class="td-code">content</td><td>text</td><td>Message text</td></tr>
+          <tr><td class="td-code">type</td><td>text</td><td>manual / system / broadcast</td></tr>
+          <tr><td class="td-code">is_read</td><td>boolean</td><td>false by default, set true when receiver opens chat</td></tr>
+          <tr><td class="td-code">broadcast_id</td><td>uuid</td><td>Groups bulk messages sent to multiple people</td></tr>
+          <tr><td class="td-code">created_at</td><td>timestamptz</td><td>Message timestamp</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="db-card">
+    <div class="db-head">
+      <div>
+        <div class="db-head-name">skills_master</div>
+        <div class="db-head-desc">Admin-managed list of all skills</div>
+      </div>
+      <div class="db-head-badge">config</div>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Column</th><th>Type</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td class="td-code">id</td><td>uuid</td><td>Auto</td></tr>
+          <tr><td class="td-code">skill_name</td><td>text</td><td>Display name of skill</td></tr>
+          <tr><td class="td-code">category</td><td>text</td><td>core / automation / ai</td></tr>
+          <tr><td class="td-code">target_level</td><td>integer</td><td>Admin-set target (1, 2, or 3). Used for gap detection.</td></tr>
+          <tr><td class="td-code">is_active</td><td>boolean</td><td>Admin can deactivate a skill — hides from form but keeps historical data</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══ SUPABASE SLEEP ══ -->
+<div id="supabase-sleep" class="section">
+  <div class="section-id">Section 13</div>
+  <div class="section-title">Supabase Sleep Problem — Fix</div>
+
+  <div class="hbox danger">
+    <div class="hbox-title">⚠️ What is the sleep problem?</div>
+    <p>Supabase <strong>free tier pauses your database</strong> if no one uses the app for 7 days. When it wakes up the first request takes <strong>10–30 seconds</strong>. Users see a blank screen. This looks like the app is broken but it is not — the database is just sleeping.</p>
+  </div>
+
+  <div class="g3" style="margin-top:12px;">
+    <div class="card card-accent" style="--accent-c:var(--green)">
+      <div class="card-title">✅ Solution 1 — Keep-alive ping (Free)</div>
+      <div class="card-sub" style="margin-top:6px;">Create a GitHub Actions workflow that runs every 3 days and sends a simple SELECT query to Supabase. This costs zero money and keeps the database awake permanently. Takes 10 minutes to set up.</div>
+    </div>
+    <div class="card card-accent" style="--accent-c:var(--blue)">
+      <div class="card-title">💳 Solution 2 — Supabase Pro ($25/month)</div>
+      <div class="card-sub" style="margin-top:6px;">Upgrading to Supabase Pro removes the sleep completely. Database is always on. Recommend this once the team is actively using the app daily.</div>
+    </div>
+    <div class="card card-accent" style="--accent-c:var(--purple)">
+      <div class="card-title">⚡ Solution 3 — Vercel cron (Free)</div>
+      <div class="card-sub" style="margin-top:6px;">If deploying on Vercel, add a Vercel Cron function that pings the Supabase REST endpoint every 2 days automatically. No GitHub needed.</div>
+    </div>
+  </div>
+
+  <div class="hbox success" style="margin-top:14px;">
+    <div class="hbox-title">✅ Recommended for this project: Solution 1 + Solution 2 when approved</div>
+    <p>Use the free GitHub Actions ping during development. Once manager approves and team starts using daily, upgrade to Supabase Pro. Cost is ₹2,100/month approximately.</p>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══ PROMPTS ══ -->
+<div id="prompts" class="section">
+  <div class="section-id">Section 14</div>
+  <div class="section-title">Lovable AI Prompts — Ready to Use</div>
+  <div class="section-desc">Use these prompts one at a time in Lovable AI. Do not paste all at once. Wait for each step to complete before pasting the next prompt.</div>
+
+  <div class="prompt-card">
+    <div class="prompt-head"><div class="prompt-num">1</div><div class="prompt-title">Project Setup + Login Page</div><span class="badge b-blue prompt-tag">Start here</span></div>
+    <div class="prompt-body">Create a web app called SkillMatrix Pro for a QA team at Zensar Technologies. Use Supabase for backend and authentication.
+
+Create a login page at /login with:
+- Email and password fields
+- A role toggle: Employee | Admin (two tabs)
+- A "Sign In" button
+- Connect to Supabase Auth
+- After login, read the "role" column from the employees table
+- If role = employee → redirect to /form
+- If role = admin → redirect to /dashboard
+- Use a clean dark navy + white design with the font Plus Jakarta Sans</div>
+    <div class="prompt-note">⏱ Wait for Lovable to complete before moving to next prompt</div>
+  </div>
+
+  <div class="prompt-card">
+    <div class="prompt-head"><div class="prompt-num">2</div><div class="prompt-title">Supabase Database Tables</div><span class="badge b-amber prompt-tag">DB Setup</span></div>
+    <div class="prompt-body">Create these Supabase tables:
+
+1. employees: id (uuid pk), name, employee_id (unique), email (unique), role (employee/admin), department, experience, manager_name, created_at, updated_at
+
+2. skill_ratings: id (uuid pk), employee_id (uuid fk), skill_name (text), skill_category (core/automation/ai), level (integer 1-3), rated_at (timestamptz)
+
+3. growth_plans: id, employee_id (fk), skill_name, current_level (int), target_level (int), action_plan (text), timeline (text), status (Planned/In Progress/On Track/Done)
+
+4. messages: id, sender_id (uuid fk), receiver_id (uuid fk), content (text), type (manual/system/broadcast), is_read (boolean default false), broadcast_id (uuid nullable), created_at
+
+5. skills_master: id, skill_name, category, target_level (int), is_active (boolean default true)
+
+Enable Row Level Security. Employees can only read/write their own rows. Admins can read/write all rows.</div>
+    <div class="prompt-note">⏱ Apply this SQL in Supabase SQL Editor directly</div>
+  </div>
+
+  <div class="prompt-card">
+    <div class="prompt-head"><div class="prompt-num">3</div><div class="prompt-title">Employee Skill Form (5-step)</div><span class="badge b-green prompt-tag">User Portal</span></div>
+    <div class="prompt-body">Create a 5-step skill form page at /form for employees. Show a step progress bar at the top.
+
+Step 1 - Basic Info: Name, Employee ID, Email, Experience (dropdown: 0-1yr/1-3yr/3-6yr/6+yr), Department (dropdown: QA/Dev/DevOps/PM), Manager Name
+
+Step 2 - Core Testing Skills (9 skills): Functional Testing, Banking Domain, Insurance Domain, Test Case Design, Defect Management, Test Planning, Agile Lifecycle, Security Testing, Performance Testing. Each skill has 3 buttons: 1 (red), 2 (yellow), 3 (green). Selected button turns colored.
+
+Step 3 - Automation Skills (9): Selenium, Playwright, Cypress, Appium, Java, Python, JavaScript, Framework Design, CI/CD Integration. Same 1-2-3 buttons.
+
+Step 4 - AI Skills (8): AI Test Case Gen, AI Coding Assistants, AI Automation Tools, Prompt Engineering, LLM Testing, Zense AI, AI Test Data Gen, Prompt Optimization. Same buttons.
+
+Step 5 - Growth Plan: skill name text input, action plan textarea, timeline dropdown (1/3/6/12 months).
+
+On submit: save employees table and skill_ratings table. Send notification to admin. Redirect to /profile.</div>
+    <div class="prompt-note">⏱ This is the most complex step — may take 2-3 Lovable iterations</div>
+  </div>
+
+  <div class="prompt-card">
+    <div class="prompt-head"><div class="prompt-num">4</div><div class="prompt-title">Employee Profile Page</div><span class="badge b-green prompt-tag">User Portal</span></div>
+    <div class="prompt-body">Create a /profile page for logged-in employees only.
+
+Show at top: avatar with initials, name, role badge, department badge, experience, employee ID.
+
+Show skill bars section: horizontal bars for all 26 skills, each bar filled based on the level (1=33%, 2=66%, 3=100%), colored green for 3, yellow for 2, red for 1.
+
+Show AI skills radar chart: spider chart with 8 axes for AI skills, filled area shows employee's levels.
+
+Show growth plan table: columns Skill, Current Level, Target Level, Action Plan, Status (with colored badge).
+
+Show AI Recommendations section: 3 cards, each showing a course suggestion based on current skill levels. Example: "Python L3 + Selenium L2 → Recommended: Build a complete POM framework with pytest".
+
+Show a Chat with Manager button at bottom. Clicking opens the messages view for this employee.</div>
+    <div class="prompt-note">⏱ Fetch all data from skill_ratings, growth_plans, and messages tables</div>
+  </div>
+
+  <div class="prompt-card">
+    <div class="prompt-head"><div class="prompt-num">5</div><div class="prompt-title">Admin Dashboard</div><span class="badge b-amber prompt-tag">Admin Portal</span></div>
+    <div class="prompt-body">Create a /dashboard page visible only to role=admin.
+
+Show 4 stat cards: Total Employees (count from employees table), Team Average Level (avg of all skill_ratings.level), Skills with Gaps (count of skills where team avg is below target_level in skills_master), Active Growth Plans (count where status != Done).
+
+Show automation skills bar chart: horizontal bars for Selenium, Playwright, Python, Cypress, JavaScript, CI/CD showing team average level for each skill. Fetch averages from skill_ratings table.
+
+Show skill distribution donut chart: percentage of all ratings that are level 1, 2, 3. Label center with % Advanced.
+
+Show AI skills radar chart: spider chart with 8 axes for all AI skills, filled area shows team averages.
+
+Show top performers table: top 5 employees by overall average skill score.
+
+Show recent activity table: last 5 skill_ratings entries with columns Employee, Skill, Level, Category, Date.</div>
+    <div class="prompt-note">⏱ All charts must fetch real data from Supabase — no fake data</div>
+  </div>
+
+  <div class="prompt-card">
+    <div class="prompt-head"><div class="prompt-num">6</div><div class="prompt-title">Employees, Heatmap, Gap Analysis</div><span class="badge b-amber prompt-tag">Admin Portal</span></div>
+    <div class="prompt-body">Create three admin pages:
+
+Page /employees: Table with columns Name, Dept, Core Avg, Auto Avg, AI Avg, Overall Score, View button. Filter bar with: Dept dropdown, Experience dropdown, Level chip buttons (All/Beginner/Intermediate/Advanced), Name search. Click View button to open a modal with full skill breakdown for that employee.
+
+Page /heatmap: Grid table. Rows = employees, columns = 9 skills. Each cell colored green(3), yellow(2), red(1), grey(not rated). Tab chips at top to switch between Automation / Core Testing / AI Skills views.
+
+Page /gap-analysis: Show 7 gap cards. For each: skill name, current team average, target level, progress bar with green target marker, gap size, priority badge (High/Medium/Low based on gap size), recommended training course text. Sort by priority descending. Add filter chips: All / High / Medium / Low priority.</div>
+    <div class="prompt-note">⏱ Gap = skills where team avg is below skills_master.target_level</div>
+  </div>
+
+  <div class="prompt-card">
+    <div class="prompt-head"><div class="prompt-num">7</div><div class="prompt-title">Chat System in Admin Panel</div><span class="badge b-teal prompt-tag">Chat</span></div>
+    <div class="prompt-body">Create a /chat page in the admin panel with two panels:
+
+Left panel: List of all employees with avatar, name, last message preview, timestamp, unread count badge. Add filter chips at top: All / Unread / QA / Dev / DevOps. Add a search input to filter by employee name. Sort by most recent message.
+
+Right panel: When employee is clicked, show the conversation thread. Messages from admin aligned right (blue bubble), messages from employee aligned left (white bubble). System messages (type=system) shown as a yellow centered pill. Show employee name and last-seen at top. Text input at bottom with Send button.
+
+Features:
+- Mark message as read when conversation is opened (update is_read=true)
+- Realtime updates using Supabase realtime subscriptions
+- Bulk message button: opens modal to type a message and select recipient (All employees / specific dept / individual). Saves multiple rows with same broadcast_id.
+- All messages saved to messages table with sender_id, receiver_id, content, type, created_at.</div>
+    <div class="prompt-note">⏱ Use Supabase realtime for live message updates — no page refresh needed</div>
+  </div>
+
+  <div class="prompt-card">
+    <div class="prompt-head"><div class="prompt-num">8</div><div class="prompt-title">Growth Plan + Reports + Admin Panel</div><span class="badge b-purple prompt-tag">Final pages</span></div>
+    <div class="prompt-body">Create three final admin pages:
+
+Page /growth-plan: Table with columns Employee, Skill, Current Level (badge), Target Level (badge), Progress bar, Timeline, Action Plan (truncated), Status (colored badge). Add dropdown filter for status. Data from growth_plans table.
+
+Page /reports: 6 report cards: Employee Skill Report (PDF/Excel), AI Skill Readiness (PDF), Gap Analysis Report (PDF/Excel), Growth Tracker (Excel/CSV), Automation Coverage (Excel), Manager Team Summary (PDF). Each card has a Download button. On click, generate and download the report using the data from Supabase.
+
+Page /admin with 4 tabs:
+- Users tab: Table of all employees with edit/delete. Search input. Add Employee button linking to /form.
+- Skills tab: List all skills from skills_master grouped by category. Edit button per skill to change name or target level. Add New Skill button.
+- Alerts tab: Show all messages from messages table. Filter by type (system/manual). Compose new message form.
+- Settings tab: Rating cycle frequency dropdown, reminder days number input, target level per skill category. Save button updates skills_master.target_level.</div>
+    <div class="prompt-note">⏱ This completes all admin pages — full app is done after this step</div>
+  </div>
+
+  <div class="prompt-card">
+    <div class="prompt-head"><div class="prompt-num">9</div><div class="prompt-title">Supabase Keep-Alive Fix</div><span class="badge b-red prompt-tag">Critical</span></div>
+    <div class="prompt-body">Add a keep-alive mechanism for the Supabase free tier sleep problem.
+
+Create a Supabase Edge Function called "keep-alive" that runs a simple query: SELECT 1 FROM employees LIMIT 1.
+
+Add a pg_cron job in Supabase that calls this edge function every 3 days using the cron schedule: 0 9 */3 * *
+
+Also add a loading screen to the app: when the app first loads, show a spinner with the text "Connecting..." for up to 5 seconds. If Supabase responds before 5 seconds, hide the spinner immediately. This prevents users from seeing a blank page while the database wakes up.</div>
+    <div class="prompt-note">⏱ This is critical — add it before going live</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══ TIMELINE ══ -->
+<div id="timeline" class="section">
+  <div class="section-id">Section 15</div>
+  <div class="section-title">Project Timeline</div>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Week</th><th>Phase</th><th>What gets built</th><th>Who does it</th></tr></thead>
+      <tbody>
+        <tr><td class="td-name">Week 1</td><td><span class="badge b-blue">Setup</span></td><td>Supabase project + database tables + login page + Lovable project setup</td><td>Developer</td></tr>
+        <tr><td class="td-name">Week 2</td><td><span class="badge b-green">User Portal</span></td><td>Employee 5-step skill form + profile page + AI recommendations</td><td>Developer</td></tr>
+        <tr><td class="td-name">Week 3</td><td><span class="badge b-amber">Admin Core</span></td><td>Admin dashboard + employees table + heatmap + gap analysis</td><td>Developer</td></tr>
+        <tr><td class="td-name">Week 4</td><td><span class="badge b-purple">Admin Full</span></td><td>Chat system + growth plan + reports + admin panel + notifications</td><td>Developer</td></tr>
+        <tr><td class="td-name">Week 5</td><td><span class="badge b-teal">Testing</span></td><td>QA team fills test data, manager reviews, bugs fixed, mobile responsive check</td><td>Team + Manager</td></tr>
+        <tr><td class="td-name">Week 6</td><td><span class="badge b-green">Launch</span></td><td>Deploy on Vercel, add keep-alive, all employees register, go live</td><td>Developer + Manager</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══ CHECKLIST ══ -->
+<div id="checklist" class="section">
+  <div class="section-id">Section 16</div>
+  <div class="section-title">Checklist</div>
+  <div class="section-desc">Share this with your manager. Every item below will be delivered.</div>
+
+  <div class="g2">
+    <div>
+      <div class="hbox success" style="margin-bottom:10px;">
+        <div class="hbox-title">✅ Employee Portal Deliverables</div>
+        <p>
+        ✓ Login page with role selection<br>
+        ✓ 5-step skill form (26 skills total)<br>
+        ✓ Profile page with skill bars<br>
+        ✓ AI skills radar chart<br>
+        ✓ Growth plan on profile<br>
+        ✓ AI course recommendations<br>
+        ✓ Chat with manager<br>
+        ✓ Notification bell<br>
+        ✓ Works on mobile and desktop
+        </p>
+      </div>
+
+      <div class="hbox" style="margin-bottom:10px;">
+        <div class="hbox-title">✅ Admin Portal Deliverables</div>
+        <p>
+        ✓ Dashboard with 4 stats + 6 charts<br>
+        ✓ Employees table with filters<br>
+        ✓ Full skill heatmap (3 views)<br>
+        ✓ Gap analysis (7 gaps auto-detected)<br>
+        ✓ Growth plan tracker<br>
+        ✓ 6 downloadable reports (PDF/Excel/CSV)<br>
+        ✓ Chat panel (filter, search, bulk message)<br>
+        ✓ Admin panel (Users/Skills/Alerts/Settings tabs)
+        </p>
+      </div>
+    </div>
+
+    <div>
+      <div class="hbox purple" style="margin-bottom:10px;">
+        <div class="hbox-title">✅ Technical Deliverables</div>
+        <p>
+        ✓ Built on Lovable AI (no-code/low-code)<br>
+        ✓ Supabase database (5 tables)<br>
+        ✓ Supabase Auth (email/password)<br>
+        ✓ Row Level Security (admin hidden from employees)<br>
+        ✓ Realtime chat (no page refresh)<br>
+        ✓ Keep-alive ping (no sleep problem)<br>
+        ✓ Deployed on Vercel (free)<br>
+        ✓ Mobile responsive
+        </p>
+      </div>
+
+      <div class="hbox warn">
+        <div class="hbox-title">💰 Estimated Cost</div>
+        <p>
+        <strong>Development:</strong> Internal (Lovable AI free tier or Pro ₹2,000/month)<br>
+        <strong>Hosting:</strong> Vercel Free<br>
+        <strong>Database:</strong> Supabase Free (during development)<br>
+        <strong>After launch:</strong> Supabase Pro ₹2,100/month recommended<br>
+        <strong>Total estimated cost:</strong> ₹0 development + ₹2,100/month after go-live
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="hbox success" style="margin-top:4px;">
+    <div class="hbox-title">🚀 Ready for Manager Sign-off</div>
+    <p>This document covers the complete project from start to finish — who uses it, what they see, all data collected, all visuals, all filters, chat system, database structure, sleep fix, build prompts, timeline, and costs. Everything needed to start building immediately after approval.</p>
+  </div>
+</div>
+
+</main>
+</div>
 
 <script>
-/* ══════════════════════════════════════════════
-   DATA
-══════════════════════════════════════════════ */
-const CS=['Functional Testing','Banking Domain','Insurance Domain','Test Case Design',
-  'Defect Management','Test Planning','Agile Lifecycle','Security Testing','Performance Testing'];
-const AS=['Selenium','Playwright','Cypress','Appium',
-  'Java','Python','JavaScript','Framework Design','CI/CD Integration'];
-const AI=['AI Test Case Gen','AI Coding Assistants','AI Automation Tools',
-  'Prompt Engineering','LLM Testing','Zense AI','AI Test Data Gen','Prompt Optimization'];
-
-const employees=[
-  {name:'Ravi Kumar',     id:'EMP-001',dept:'QA',  exp:'3–6 years',  mgr:'Anand J',
-   core:[3,2,2,3,3,2,3,1,2],auto:[3,2,1,1,2,2,2,2,2],ai:[2,2,1,3,2,1,1,2]},
-  {name:'Arjun Singh',   id:'EMP-002',dept:'QA',  exp:'1–3 years',  mgr:'Anand J',
-   core:[2,1,1,2,2,2,2,1,1],auto:[2,3,2,2,2,3,2,1,2],ai:[3,3,2,3,3,2,2,3]},
-  {name:'Priya Menon',   id:'EMP-003',dept:'QA',  exp:'3–6 years',  mgr:'Anand J',
-   core:[3,3,2,3,3,3,2,2,2],auto:[3,2,3,1,2,2,3,3,2],ai:[2,2,2,2,1,1,1,1]},
-  {name:'Sundar Raj',    id:'EMP-004',dept:'QA',  exp:'6+ years',   mgr:'Anand J',
-   core:[3,3,3,3,3,3,3,2,3],auto:[3,1,2,2,3,1,2,3,3],ai:[1,2,1,2,2,1,1,2]},
-  {name:'Divya Lakshmi', id:'EMP-005',dept:'Dev', exp:'1–3 years',  mgr:'Meera S',
-   core:[2,1,1,2,2,2,2,1,1],auto:[1,2,2,1,3,2,2,1,2],ai:[3,3,2,3,2,2,2,3]},
-  {name:'Karthik V',     id:'EMP-006',dept:'QA',  exp:'0–1 year',   mgr:'Anand J',
-   core:[2,1,1,2,1,1,2,1,1],auto:[2,1,1,1,1,2,1,1,1],ai:[2,2,1,2,1,1,1,1]},
-  {name:'Nithya Devi',   id:'EMP-007',dept:'DevOps',exp:'3–6 years',mgr:'Meera S',
-   core:[2,2,1,2,2,2,3,1,2],auto:[2,2,1,1,2,2,2,2,3],ai:[1,2,1,2,1,1,1,2]},
-  {name:'Anbu Mani',     id:'EMP-008',dept:'QA',  exp:'1–3 years',  mgr:'Anand J',
-   core:[2,2,2,2,2,2,2,1,2],auto:[2,2,2,2,2,2,2,1,2],ai:[2,2,2,2,2,1,1,2]},
-  {name:'Saranya P',     id:'EMP-009',dept:'QA',  exp:'0–1 year',   mgr:'Anand J',
-   core:[1,1,1,2,1,1,2,1,1],auto:[1,1,1,1,1,2,1,1,1],ai:[2,2,1,2,1,1,1,2]},
-  {name:'Vikram N',      id:'EMP-010',dept:'Dev', exp:'3–6 years',  mgr:'Meera S',
-   core:[3,2,2,3,3,3,3,2,3],auto:[3,3,3,2,3,3,3,3,3],ai:[3,3,2,3,3,2,2,3]},
-  {name:'Lavanya R',     id:'EMP-011',dept:'QA',  exp:'1–3 years',  mgr:'Anand J',
-   core:[2,1,2,2,2,2,2,1,2],auto:[2,2,1,1,2,2,2,2,2],ai:[2,2,2,3,2,1,2,2]},
-  {name:'Magudeshwaran H',id:'EMP-022',dept:'QA',exp:'0–1 year',    mgr:'–',
-   core:[2,1,1,2,1,1,1,1,1],auto:[2,1,1,1,1,3,1,1,1],ai:[2,2,1,3,2,1,2,2]},
-];
-
-const growthPlans=[
-  {emp:'Ravi Kumar',skill:'Playwright',cur:2,tgt:3,tl:'3 Months',action:'Advanced course',status:'In Progress'},
-  {emp:'Arjun Singh',skill:'LLM Testing',cur:3,tgt:3,tl:'–',action:'Completed',status:'Done'},
-  {emp:'Priya Menon',skill:'AI Test Case Gen',cur:2,tgt:3,tl:'6 Months',action:'AI testing workshops',status:'In Progress'},
-  {emp:'Karthik V',skill:'Selenium',cur:2,tgt:3,tl:'3 Months',action:'Build POM framework',status:'In Progress'},
-  {emp:'Vikram N',skill:'Zense AI',cur:2,tgt:3,tl:'3 Months',action:'Internal training',status:'On Track'},
-  {emp:'Anbu Mani',skill:'Framework Design',cur:1,tgt:2,tl:'6 Months',action:'Study hybrid frameworks',status:'Planned'},
-  {emp:'Magudeshwaran H',skill:'Playwright',cur:1,tgt:2,tl:'3 Months',action:'Official docs + 2 suites',status:'In Progress'},
-  {emp:'Sundar Raj',skill:'Prompt Engineering',cur:2,tgt:3,tl:'3 Months',action:'Advanced prompting course',status:'On Track'},
-  {emp:'Lavanya R',skill:'AI Test Case Gen',cur:2,tgt:3,tl:'6 Months',action:'Generative AI testing',status:'Planned'},
-];
-
-const notifs=[
-  {icon:'⏰',msg:'Skill matrix update due in 5 days',time:'2h ago',type:'warn'},
-  {icon:'✅',msg:'Arjun Singh completed LLM Testing plan',time:'1d ago',type:'ok'},
-  {icon:'⚠️',msg:'Team Playwright coverage below 50%',time:'2d ago',type:'warn'},
-  {icon:'📊',msg:'Q1 2026 Skill Report is ready',time:'3d ago',type:'info'},
-  {icon:'🎯',msg:'Vikram N reached Advanced in Automation',time:'5d ago',type:'ok'},
-];
-
-/* ══════════════════════════════════════════════
-   HELPERS
-══════════════════════════════════════════════ */
-const avg=a=>a.length?+(a.reduce((x,y)=>x+y,0)/a.length).toFixed(1):0;
-const lc=v=>v>=3?'var(--a3)':v>=2?'var(--a4)':v>=1?'var(--a5)':'var(--t3)';
-const lb=v=>v>=3?'badge-green':v>=2?'badge-yellow':v>=1?'badge-red':'';
-const initials=n=>n.split(' ').map(x=>x[0]).join('').toUpperCase().slice(0,2);
-const overall=e=>avg([...e.core,...e.auto,...e.ai]);
-function barHTML(v,max=3){
-  const p=Math.round((v/max)*100);
-  return`<div class="skill-track"><div class="skill-fill" style="width:${p}%;background:${lc(v)}"></div></div>`;
-}
-
-/* ══════════════════════════════════════════════
-   STATE
-══════════════════════════════════════════════ */
-let currentRole='user';
-let currentUser={name:'Magudeshwaran H',id:'EMP-022',initials:'MH',dept:'QA'};
-let formStep=0;
-const fLevels={};
-let empLvlFilter=0;
-
-/* ══════════════════════════════════════════════
-   LOGIN
-══════════════════════════════════════════════ */
-let loginRole='user';
-function setLoginRole(r,btn){
-  loginRole=r;
-  document.querySelectorAll('.role-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  const hints={
-    user:'Login as: <b>Employee</b> — fill your skill form &amp; view profile',
-    admin:'Login as: <b>Admin</b> — full dashboard, heatmap, gap analysis &amp; team management'
-  };
-  document.getElementById('login-hint').innerHTML=hints[r];
-}
-function doLogin(){
-  const u=document.getElementById('li-user').value.trim();
-  if(!u){showToast('Enter your email or ID',true);return;}
-  currentRole=loginRole;
-  if(currentRole==='admin'){
-    currentUser={name:'Admin User',id:'ADM-001',initials:'AU',dept:'Admin'};
-  } else {
-    currentUser={name:'Magudeshwaran H',id:'EMP-022',initials:'MH',dept:'QA'};
-  }
-  document.getElementById('login-screen').style.display='none';
-  document.getElementById('app').classList.add('visible');
-  initApp();
-}
-
-/* ══════════════════════════════════════════════
-   APP INIT
-══════════════════════════════════════════════ */
-function initApp(){
-  // role badge
-  const rb=document.getElementById('role-badge');
-  rb.textContent=currentRole==='admin'?'Admin':'Employee';
-  rb.className='role-badge '+(currentRole==='admin'?'admin':'user');
-
-  // top avatar
-  document.getElementById('top-av').textContent=currentUser.initials;
-
-  // drawer user info
-  document.getElementById('d-uname').textContent=currentUser.name;
-  document.getElementById('d-umeta').textContent=currentUser.id+' · '+currentUser.dept;
-  document.getElementById('d-role-label').innerHTML=
-    currentRole==='admin'?'<span style="color:var(--a2)">Administrator</span>':'<span style="color:var(--a1)">Employee</span>';
-
-  buildDrawerNav();
-  buildBottomNav();
-  renderAll();
-
-  // show first page for role
-  if(currentRole==='admin') goPage('dashboard');
-  else goPage('form');
-}
-
-/* ══════════════════════════════════════════════
-   NAV BUILDING
-══════════════════════════════════════════════ */
-const userNav=[
-  {id:'form',    icon:'📝',label:'My Skill Form', badge:null},
-  {id:'profile', icon:'◯', label:'My Profile',   badge:null},
-];
-const adminNav=[
-  {id:'dashboard',icon:'◈',label:'Dashboard',   badge:null},
-  {id:'employees',icon:'◉',label:'Employees',   badge:'12',bc:'nb-blue'},
-  {id:'heatmap',  icon:'▦',label:'Heatmap',     badge:null},
-  {id:'gap',      icon:'△',label:'Gap Analysis',badge:'7',bc:'nb-gold'},
-  {id:'growth',   icon:'↑',label:'Growth Plan', badge:null},
-  {id:'reports',  icon:'↓',label:'Reports',     badge:null},
-  {id:'admin',    icon:'🛡',label:'Admin Panel', badge:null},
-  {id:'profile',  icon:'◯',label:'My Profile',  badge:null},
-  {id:'form',     icon:'📝',label:'Add Employee',badge:null},
-];
-
-const userBottomNav=[
-  {id:'form',   icon:'📝',label:'Form'},
-  {id:'profile',icon:'◯', label:'Profile'},
-];
-const adminBottomNav=[
-  {id:'dashboard',icon:'◈',label:'Home'},
-  {id:'heatmap',  icon:'▦',label:'Heatmap'},
-  {id:'gap',      icon:'△',label:'Gaps'},
-  {id:'reports',  icon:'↓',label:'Reports'},
-  {id:'admin',    icon:'🛡',label:'Admin'},
-];
-
-function buildDrawerNav(){
-  const nav=document.getElementById('drawer-nav');
-  const items=currentRole==='admin'?adminNav:userNav;
-  nav.innerHTML='<div class="nav-group-label">Navigation</div>'+
-    items.map(i=>`
-      <div class="nav-item" id="ni-${i.id}" onclick="goPage('${i.id}')">
-        <span class="nav-icon">${i.icon}</span>${i.label}
-        ${i.badge?`<span class="nav-badge ${i.bc||''}">${i.badge}</span>`:''}
-      </div>`).join('');
-}
-function buildBottomNav(){
-  const bn=document.getElementById('bottom-nav');
-  const items=currentRole==='admin'?adminBottomNav:userBottomNav;
-  bn.innerHTML=items.map(i=>`
-    <div class="bnav-item" id="bn-${i.id}" onclick="goPage('${i.id}')">
-      <div class="bnav-icon">${i.icon}</div>${i.label}
-    </div>`).join('');
-}
-
-/* ══════════════════════════════════════════════
-   NAVIGATE
-══════════════════════════════════════════════ */
-function goPage(id){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  document.querySelectorAll('.bnav-item').forEach(n=>n.classList.remove('active'));
-  const pg=document.getElementById('page-'+id);
-  if(pg) pg.classList.add('active');
-  const ni=document.getElementById('ni-'+id);
-  if(ni) ni.classList.add('active');
-  const bn=document.getElementById('bn-'+id);
-  if(bn) bn.classList.add('active');
-  closeDrawer();
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-
-/* ══════════════════════════════════════════════
-   DRAWER
-══════════════════════════════════════════════ */
-function toggleDrawer(){
-  const d=document.getElementById('drawer');
-  const o=document.getElementById('overlay');
-  const h=document.getElementById('hamburger');
-  const open=d.classList.contains('open');
-  d.classList.toggle('open',!open);
-  o.classList.toggle('open',!open);
-  h.classList.toggle('open',!open);
-}
-function closeDrawer(){
-  document.getElementById('drawer').classList.remove('open');
-  document.getElementById('overlay').classList.remove('open');
-  document.getElementById('hamburger').classList.remove('open');
-}
-
-/* ══════════════════════════════════════════════
-   LOGOUT
-══════════════════════════════════════════════ */
-function doLogout(){
-  document.getElementById('app').classList.remove('visible');
-  document.getElementById('login-screen').style.display='flex';
-  closeDrawer();
-}
-
-/* ══════════════════════════════════════════════
-   MODAL
-══════════════════════════════════════════════ */
-function openModal(id){document.getElementById(id).classList.add('open');}
-function closeModal(id){document.getElementById(id).classList.remove('open');}
-window.addEventListener('click',e=>{if(e.target.classList.contains('modal-bg'))e.target.classList.remove('open');});
-
-/* ══════════════════════════════════════════════
-   TOAST
-══════════════════════════════════════════════ */
-function showToast(msg,err=false){
-  const t=document.getElementById('toast');
-  t.textContent=(err?'⚠ ':'✓ ')+msg;
-  t.className='toast'+(err?' err':'')+' show';
-  setTimeout(()=>t.className='toast'+(err?' err':''),2800);
-}
-
-/* ══════════════════════════════════════════════
-   CANVAS HELPERS
-══════════════════════════════════════════════ */
-function drawDonut(id,data,colors){
-  const cv=document.getElementById(id); if(!cv)return;
-  const c=cv.getContext('2d');
-  const total=data.reduce((a,b)=>a+b,0);
-  const cx=cv.width/2,cy=cv.height/2,r=cy-6,inner=cy-22;
-  let a=-Math.PI/2;
-  c.clearRect(0,0,cv.width,cv.height);
-  data.forEach((v,i)=>{
-    const s=(v/total)*Math.PI*2;
-    c.beginPath();c.moveTo(cx,cy);c.arc(cx,cy,r,a,a+s);c.closePath();
-    c.fillStyle=colors[i];c.fill();a+=s;
+// Smooth scroll for sidebar links
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', function(e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.querySelectorAll('.sb-item').forEach(i => i.classList.remove('active'));
+    this.classList.add('active');
   });
-  c.beginPath();c.arc(cx,cy,inner,0,Math.PI*2);c.fillStyle='#0d1117';c.fill();
-  const pct=Math.round((data[0]/total)*100)+'%';
-  c.fillStyle='#f0f4ff';c.font=`bold ${Math.round(cy*0.28)}px Outfit,sans-serif`;
-  c.textAlign='center';c.textBaseline='middle';c.fillText(pct,cx,cy-5);
-  c.fillStyle='#3d4f6e';c.font=`${Math.round(cy*0.16)}px Outfit,sans-serif`;
-  c.fillText('Adv',cx,cy+9);
-}
-
-function drawRadar(id,labels,vals,col){
-  const cv=document.getElementById(id); if(!cv)return;
-  const c=cv.getContext('2d');
-  const W=cv.width,H=cv.height,cx=W/2,cy=H/2;
-  const r=Math.min(W,H)/2-30;
-  const n=labels.length;
-  c.clearRect(0,0,W,H);
-  // rings
-  for(let ring=1;ring<=3;ring++){
-    c.beginPath();
-    for(let i=0;i<n;i++){
-      const a=(i/n)*Math.PI*2-Math.PI/2;
-      const x=cx+Math.cos(a)*(r*(ring/3));
-      const y=cy+Math.sin(a)*(r*(ring/3));
-      i===0?c.moveTo(x,y):c.lineTo(x,y);
-    }
-    c.closePath();
-    c.strokeStyle='rgba(255,255,255,0.06)';c.lineWidth=1;c.stroke();
-  }
-  // axes
-  for(let i=0;i<n;i++){
-    const a=(i/n)*Math.PI*2-Math.PI/2;
-    c.beginPath();c.moveTo(cx,cy);
-    c.lineTo(cx+Math.cos(a)*r,cy+Math.sin(a)*r);
-    c.strokeStyle='rgba(255,255,255,0.07)';c.lineWidth=1;c.stroke();
-  }
-  // fill
-  c.beginPath();
-  vals.forEach((v,i)=>{
-    const a=(i/n)*Math.PI*2-Math.PI/2;
-    const d=r*(v/3);
-    const x=cx+Math.cos(a)*d,y=cy+Math.sin(a)*d;
-    i===0?c.moveTo(x,y):c.lineTo(x,y);
-  });
-  c.closePath();
-  c.fillStyle=col.replace('#','').length===6?hexRgba(col,0.16):col;
-  c.fill();c.strokeStyle=col;c.lineWidth=2;c.stroke();
-  // dots
-  vals.forEach((v,i)=>{
-    const a=(i/n)*Math.PI*2-Math.PI/2;
-    const d=r*(v/3);
-    c.beginPath();c.arc(cx+Math.cos(a)*d,cy+Math.sin(a)*d,3,0,Math.PI*2);
-    c.fillStyle=col;c.fill();
-  });
-  // labels
-  c.font=`9px Outfit,sans-serif`;c.fillStyle='#8b9ab8';c.textAlign='center';c.textBaseline='middle';
-  labels.forEach((l,i)=>{
-    const a=(i/n)*Math.PI*2-Math.PI/2;
-    c.fillText(l.slice(0,8),cx+Math.cos(a)*(r+16),cy+Math.sin(a)*(r+14));
-  });
-}
-function hexRgba(h,a){
-  const r=parseInt(h.slice(1,3),16),g=parseInt(h.slice(3,5),16),b=parseInt(h.slice(5,7),16);
-  return`rgba(${r},${g},${b},${a})`;
-}
-
-/* ══════════════════════════════════════════════
-   RENDER FUNCTIONS
-══════════════════════════════════════════════ */
-function renderAll(){
-  renderDashboard();
-  renderEmployees();
-  renderHeatmap('auto');
-  renderGap();
-  renderGrowth();
-  renderReports();
-  renderFormSkills();
-  renderProfile();
-  renderAdminPanel();
-}
-
-function renderDashboard(){
-  // auto bars
-  const el=document.getElementById('dash-auto-bars');
-  if(!el)return;
-  const skills=['Selenium','Playwright','Python','Cypress','JavaScript','CI/CD'];
-  const idx=[0,1,5,2,6,8];
-  el.innerHTML=skills.map((s,j)=>{
-    const a=avg(employees.map(e=>e.auto[idx[j]]));
-    return`<div class="skill-row">
-      <div class="skill-lbl">${s}</div>
-      ${barHTML(a)}
-      <div class="skill-val" style="color:${lc(a)}">${a}</div>
-    </div>`;
-  }).join('');
-  // charts
-  setTimeout(()=>{
-    drawDonut('donut-main',[28,45,27],['#34d399','#fbbf24','#f87171']);
-    const aiAvgs=AI.map((_,i)=>avg(employees.map(e=>e.ai[i])));
-    drawRadar('radar-home',AI.map(s=>s.slice(0,8)),aiAvgs,'#4f9cf9');
-  },100);
-  // top performers
-  const tp=document.getElementById('top-perf-list');
-  if(tp){
-    const sorted=[...employees].sort((a,b)=>overall(b)-overall(a)).slice(0,5);
-    tp.innerHTML=sorted.map((e,i)=>{
-      const s=overall(e);
-      return`<div class="skill-row">
-        <div style="font-size:10px;color:var(--t3);width:16px">${i+1}</div>
-        <div class="av" style="width:26px;height:26px;font-size:9px">${initials(e.name)}</div>
-        <div class="skill-lbl">${e.name.split(' ')[0]}</div>
-        ${barHTML(s)}
-        <div class="skill-val" style="color:${lc(s)};font-weight:700">${s}</div>
-      </div>`;
-    }).join('');
-  }
-  // recent
-  const ra=document.getElementById('recent-act');
-  if(ra){
-    const updates=[
-      {emp:'Arjun Singh',skill:'LLM Testing',lv:3,type:'AI',date:'Mar 14'},
-      {emp:'Vikram N',skill:'Playwright',lv:3,type:'Auto',date:'Mar 12'},
-      {emp:'Priya Menon',skill:'Prompt Eng',lv:2,type:'AI',date:'Mar 10'},
-      {emp:'Ravi Kumar',skill:'Framework',lv:2,type:'Auto',date:'Mar 8'},
-    ];
-    ra.innerHTML=updates.map(u=>`<tr>
-      <td class="td-name mc">${u.emp}</td>
-      <td>${u.skill}</td>
-      <td class="mc2"><span class="badge ${lb(u.lv)}">${u.lv}</span></td>
-      <td><span class="badge badge-blue">${u.type}</span></td>
-      <td style="color:var(--t3)">${u.date}</td>
-    </tr>`).join('');
-  }
-}
-
-function renderEmployees(list){
-  list=list||employees;
-  const el=document.getElementById('emp-tbl'); if(!el)return;
-  el.innerHTML=list.map(e=>{
-    const ca=avg(e.core),aa=avg(e.auto),ia=avg(e.ai),oa=overall(e);
-    return`<tr>
-      <td><div style="display:flex;align-items:center;gap:8px">
-        <div class="av" style="width:28px;height:28px;font-size:9px">${initials(e.name)}</div>
-        <div class="td-name">${e.name}</div></div></td>
-      <td><span class="badge badge-blue">${e.dept}</span></td>
-      <td><span class="badge ${lb(Math.round(ca))}">${ca}</span></td>
-      <td><span class="badge ${lb(Math.round(aa))}">${aa}</span></td>
-      <td><span class="badge ${lb(Math.round(ia))}">${ia}</span></td>
-      <td><b style="color:${lc(oa)}">${oa}</b></td>
-      <td><button class="btn btn-ghost btn-sm" onclick='viewEmp("${e.id}")'>View</button></td>
-    </tr>`;
-  }).join('');
-}
-
-function viewEmp(id){
-  const e=employees.find(x=>x.id===id); if(!e)return;
-  const oa=overall(e);
-  const body=document.getElementById('modal-emp-body');
-  body.innerHTML=`
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
-      <div class="av" style="width:48px;height:48px;font-size:16px">${initials(e.name)}</div>
-      <div>
-        <div style="font-size:17px;font-weight:800">${e.name}</div>
-        <div style="font-size:11px;color:var(--t3)">${e.id} · ${e.dept} · ${e.exp}</div>
-      </div>
-      <div style="margin-left:auto;text-align:right">
-        <div style="font-size:24px;font-weight:800;color:${lc(oa)}">${oa}</div>
-        <div style="font-size:9px;color:var(--t3)">OVERALL</div>
-      </div>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px">
-      ${[['Core',avg(e.core),'#4f9cf9'],['Auto',avg(e.auto),'#34d399'],['AI',avg(e.ai),'#a78bfa']].map(([l,v,c])=>`
-        <div style="background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center">
-          <div style="font-size:20px;font-weight:800;color:${c}">${v}</div>
-          <div style="font-size:9px;color:var(--t3);margin-top:2px">${l}</div>
-        </div>`).join('')}
-    </div>
-    ${AS.slice(0,6).map((s,i)=>`
-      <div class="skill-row" style="margin-bottom:7px">
-        <div class="skill-lbl">${s}</div>
-        ${barHTML(e.auto[i])}
-        <div class="skill-val" style="color:${lc(e.auto[i])}">${e.auto[i]||'—'}</div>
-      </div>`).join('')}
-  `;
-  openModal('modal-emp');
-}
-
-function filterEmp(){
-  let list=employees;
-  const dept=document.getElementById('ef-dept').value;
-  if(dept)list=list.filter(e=>e.dept===dept);
-  if(empLvlFilter)list=list.filter(e=>Math.round(overall(e))===empLvlFilter);
-  renderEmployees(list);
-}
-function empLvlF(l,el){
-  empLvlFilter=l;
-  document.querySelectorAll('#page-employees .chip').forEach(c=>c.classList.remove('active'));
-  el.classList.add('active');filterEmp();
-}
-
-function renderHeatmap(view){
-  const el=document.getElementById('hmap-tbl'); if(!el)return;
-  const views={
-    auto:{names:['Selenium','Playwright','Cypress','Python','JS','CI/CD'],getter:e=>[e.auto[0],e.auto[1],e.auto[2],e.auto[5],e.auto[6],e.auto[8]]},
-    core:{names:['Func','TC Design','Defect','Test Plan','Agile','Security'],getter:e=>[e.core[0],e.core[3],e.core[4],e.core[5],e.core[6],e.core[7]]},
-    ai:{names:['AI Test','AI Code','Prompt','LLM','Zense','AI Data'],getter:e=>[e.ai[0],e.ai[1],e.ai[3],e.ai[4],e.ai[5],e.ai[6]]},
-  };
-  const {names,getter}=views[view]||views.auto;
-  let html=`<thead><tr><th style="text-align:left">Name</th>${names.map(n=>`<th>${n}</th>`).join('')}</tr></thead><tbody>`;
-  employees.forEach(e=>{
-    const vals=getter(e);
-    html+=`<tr><td class="rl">${e.name.split(' ')[0]}</td>`;
-    vals.forEach(v=>{
-      const cls=v===3?'hc3':v===2?'hc2':v===1?'hc1':'hc0';
-      const lbl=v===3?'▲':v===2?'●':v===1?'▼':'–';
-      html+=`<td class="hc ${cls}" title="Level ${v||'N/A'}">${lbl}</td>`;
-    });
-    html+='</tr>';
-  });
-  el.innerHTML=html+'</tbody>';
-}
-function setHM(v,el){
-  document.querySelectorAll('#page-heatmap .chip').forEach(c=>c.classList.remove('active'));
-  el.classList.add('active');renderHeatmap(v);
-}
-
-function renderGap(){
-  const el=document.getElementById('gap-list'); if(!el)return;
-  const gaps=[
-    {skill:'Playwright',  cur:1.3,tgt:2.5,prio:'High',  gc:'var(--a5)',rec:'Playwright Advanced Course'},
-    {skill:'LLM Testing', cur:1.6,tgt:2.5,prio:'High',  gc:'var(--a5)',rec:'RAGAS Evaluation Framework'},
-    {skill:'CI/CD',       cur:1.8,tgt:2.5,prio:'Medium',gc:'var(--a4)',rec:'GitHub Actions for Testing'},
-    {skill:'Security',    cur:1.3,tgt:2.0,prio:'Medium',gc:'var(--a4)',rec:'OWASP Top 10 Fundamentals'},
-    {skill:'Zense AI',    cur:1.2,tgt:2.0,prio:'Medium',gc:'var(--a4)',rec:'Internal Zense Training'},
-    {skill:'AI Test Data',cur:1.4,tgt:2.5,prio:'Low',   gc:'var(--a1)',rec:'Synthetic Data Tools'},
-    {skill:'Framework',   cur:1.7,tgt:2.5,prio:'Low',   gc:'var(--a1)',rec:'Page Object Model Guide'},
-  ];
-  el.innerHTML=gaps.map(g=>{
-    const bw=Math.round((g.cur/3)*100),tw=Math.round((g.tgt/3)*100);
-    const pb=g.prio==='High'?'badge-red':g.prio==='Medium'?'badge-yellow':'badge-blue';
-    return`<div class="gap-c" style="--gc:${g.gc}">
-      <div style="min-width:100px;margin-bottom:8px">
-        <div style="font-weight:700;font-size:14px;color:var(--text)">${g.skill}</div>
-        <div style="font-size:10px;color:var(--t3);margin-top:2px">Gap: ${(g.tgt-g.cur).toFixed(1)} levels</div>
-      </div>
-      <div style="flex:1;margin-bottom:8px">
-        <div style="font-size:10px;color:var(--t3);margin-bottom:4px">Current ${g.cur} → Target ${g.tgt}</div>
-        <div class="prog-bar">
-          <div class="prog-fill" style="width:${bw}%;background:${g.gc}"></div>
-          <div class="prog-target" style="left:${tw}%"></div>
-        </div>
-        <div style="font-size:10px;color:var(--t2);margin-top:5px">💡 ${g.rec}</div>
-      </div>
-      <div style="flex-shrink:0"><span class="badge ${pb}">${g.prio}</span></div>
-    </div>`;
-  }).join('');
-}
-
-function renderGrowth(){
-  const el=document.getElementById('growth-tbl'); if(!el)return;
-  el.innerHTML=growthPlans.map(g=>{
-    const sb=g.status==='Done'?'badge-green':g.status==='In Progress'||g.status==='On Track'?'badge-yellow':'badge-blue';
-    return`<tr>
-      <td class="td-name">${g.emp}</td>
-      <td>${g.skill}</td>
-      <td><span class="badge ${lb(g.cur)}">${g.cur}</span></td>
-      <td><span class="badge ${lb(g.tgt)}">${g.tgt}</span></td>
-      <td style="color:var(--t3)">${g.tl}</td>
-      <td><span class="badge ${sb}">${g.status}</span></td>
-    </tr>`;
-  }).join('');
-}
-
-function renderReports(){
-  const el=document.getElementById('report-grid'); if(!el)return;
-  const reps=[
-    {icon:'📊',title:'Employee Skill Report',desc:'Full profile for each employee',tags:['PDF','Excel']},
-    {icon:'🤖',title:'AI Skill Readiness',desc:'AI adoption across the team',tags:['PDF']},
-    {icon:'⚠️',title:'Gap Analysis Report',desc:'Gaps with training suggestions',tags:['PDF','Excel']},
-    {icon:'↑',title:'Growth Tracker',desc:'All active growth plans',tags:['Excel','CSV']},
-    {icon:'🎯',title:'Automation Coverage',desc:'Automation by employee',tags:['Excel']},
-    {icon:'👔',title:'Manager Summary',desc:'One-page team overview',tags:['PDF']},
-  ];
-  el.innerHTML=reps.map(r=>`
-    <div class="report-card" onclick="showToast('${r.title} download started!')">
-      <div style="font-size:24px;margin-bottom:8px">${r.icon}</div>
-      <div style="font-weight:700;font-size:13px;color:var(--text);margin-bottom:4px">${r.title}</div>
-      <div style="font-size:11px;color:var(--t3);margin-bottom:10px">${r.desc}</div>
-      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">${r.tags.map(t=>`<span class="badge badge-blue">${t}</span>`).join('')}</div>
-      <button class="btn btn-primary btn-sm btn-full">↓ Download</button>
-    </div>`).join('');
-}
-
-/* ══════════════════════════════════════════════
-   FORM (multi-step)
-══════════════════════════════════════════════ */
-function renderFormSkills(){
-  const sections=[
-    {id:'form-core',skills:CS,prefix:'c'},
-    {id:'form-auto',skills:AS,prefix:'a'},
-    {id:'form-ai',  skills:AI,prefix:'i'},
-  ];
-  sections.forEach(({id,skills,prefix})=>{
-    const el=document.getElementById(id); if(!el)return;
-    el.innerHTML=skills.map((s,j)=>`
-      <div class="level-row">
-        <div class="level-lbl">${s}</div>
-        <div class="level-btns">
-          ${[1,2,3].map(l=>`<button class="lbtn" id="${prefix}${j}l${l}" onclick="setFL('${prefix}',${j},${l})">${l}</button>`).join('')}
-          <span style="font-size:9px;color:var(--t3);width:50px;margin-left:5px" id="${prefix}${j}txt">—</span>
-        </div>
-      </div>`).join('');
-  });
-}
-
-function setFL(prefix,idx,l){
-  fLevels[`${prefix}${idx}`]=l;
-  [1,2,3].forEach(v=>{
-    const b=document.getElementById(`${prefix}${idx}l${v}`);
-    if(b) b.className='lbtn'+(v===l?` s${l}`:'');
-  });
-  const labels=['','Beginner','Intermediate','Advanced'];
-  const t=document.getElementById(`${prefix}${idx}txt`);
-  if(t){t.textContent=labels[l];t.style.color=lc(l);}
-}
-
-function updateStepBar(){
-  for(let i=0;i<5;i++){
-    const s=document.getElementById(`step-${i}`);
-    const l=document.getElementById(`sl-${i}`);
-    if(s){
-      s.className='step'+(i<formStep?' done':i===formStep?' active':'');
-    }
-    if(l) l.className='step-line'+(i<formStep?' done':'');
-  }
-}
-
-function showFormStep(step){
-  for(let i=0;i<5;i++){
-    const el=document.getElementById(`fs-${i}`);
-    if(el) el.style.display=i===step?'block':'none';
-  }
-  document.getElementById('prev-btn').style.display=step>0?'inline-flex':'none';
-  document.getElementById('next-btn').style.display=step<4?'inline-flex':'none';
-  document.getElementById('submit-btn').style.display=step===4?'inline-flex':'none';
-  formStep=step;
-  updateStepBar();
-}
-
-function nextStep(){
-  if(formStep===0){
-    const name=document.getElementById('f-name').value.trim();
-    const id=document.getElementById('f-id').value.trim();
-    if(!name||!id){showToast('Please fill Name and ID first',true);return;}
-  }
-  if(formStep<4) showFormStep(formStep+1);
-}
-function prevStep(){if(formStep>0) showFormStep(formStep-1);}
-
-function submitForm(){
-  const name=document.getElementById('f-name').value.trim();
-  const id=document.getElementById('f-id').value.trim();
-  if(!name||!id){showToast('Name and ID are required',true);return;}
-  const core=CS.map((_,i)=>fLevels[`c${i}`]||1);
-  const auto=AS.map((_,i)=>fLevels[`a${i}`]||1);
-  const ai=AI.map((_,i)=>fLevels[`i${i}`]||1);
-  const exists=employees.findIndex(e=>e.id===id);
-  const emp={
-    name,id,dept:document.getElementById('f-dept').value,
-    exp:document.getElementById('f-exp').value,
-    mgr:document.getElementById('f-mgr').value||'–',
-    core,auto,ai
-  };
-  if(exists>=0) employees[exists]=emp;
-  else employees.push(emp);
-  showToast(name+' saved successfully!');
-  renderEmployees();
-  showFormStep(0);
-  // if admin, go to employees; if user, go to profile
-  setTimeout(()=>goPage(currentRole==='admin'?'employees':'profile'),1000);
-}
-
-/* ══════════════════════════════════════════════
-   PROFILE
-══════════════════════════════════════════════ */
-function renderProfile(){
-  const me=employees.find(e=>e.id==='EMP-022');
-  if(!me)return;
-  const el=document.getElementById('prof-bars');
-  if(el){
-    const all=[
-      ['Python',3],['Prompt Eng',3],['AI Coding',2],
-      ['Selenium',2],['LLM Testing',2],['Test Case',2],
-      ['Playwright',1],['Security',1],
-    ];
-    el.innerHTML=all.map(([n,v])=>`
-      <div class="skill-row" style="margin-bottom:9px">
-        <div class="skill-lbl">${n}</div>
-        ${barHTML(v)}
-        <div class="skill-val" style="color:${lc(v)}">${'★'.repeat(v)}${'☆'.repeat(3-v)}</div>
-      </div>`).join('');
-  }
-  setTimeout(()=>{
-    const aiVals=me.ai;
-    drawRadar('prof-radar',AI.map(s=>s.slice(0,8)),aiVals,'#a78bfa');
-  },150);
-}
-
-/* ══════════════════════════════════════════════
-   ADMIN PANEL
-══════════════════════════════════════════════ */
-function adminTab(tab,btn){
-  ['users','skills','notifs','settings'].forEach(t=>{
-    const el=document.getElementById('at-'+t);
-    if(el) el.style.display=t===tab?'block':'none';
-  });
-  document.querySelectorAll('.vtab').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-}
-
-function renderAdminPanel(){
-  // users table
-  const el=document.getElementById('admin-emp-tbl'); if(!el)return;
-  renderAdminEmpTable(employees);
-
-  // skills lists
-  ['core','auto','ai'].forEach(type=>{
-    const el2=document.getElementById(`admin-${type}-list`);
-    if(!el2)return;
-    const skills=type==='core'?CS:type==='auto'?AS:AI;
-    el2.innerHTML=skills.map(s=>`
-      <div style="display:flex;align-items:center;justify-content:space-between;
-        padding:7px 0;border-bottom:1px solid rgba(33,41,61,0.5);font-size:12px;">
-        <span style="color:var(--t2)">${s}</span>
-        <div style="display:flex;gap:5px">
-          <button class="btn btn-ghost btn-sm" style="padding:3px 8px;font-size:10px" onclick="showToast('Edit: ${s}')">Edit</button>
-        </div>
-      </div>`).join('');
-  });
-
-  // notifications
-  const nf=document.getElementById('admin-notif-list');
-  if(nf){
-    nf.innerHTML=notifs.map(n=>{
-      const col=n.type==='ok'?'var(--a3)':n.type==='warn'?'var(--a4)':'var(--a1)';
-      return`<div style="display:flex;gap:10px;align-items:flex-start;
-        padding:10px 0;border-bottom:1px solid var(--border)">
-        <span style="font-size:18px">${n.icon}</span>
-        <div style="flex:1">
-          <div style="font-size:13px;color:var(--text)">${n.msg}</div>
-          <div style="font-size:10px;color:var(--t3);margin-top:2px">${n.time}</div>
-        </div>
-        <div style="width:6px;height:6px;border-radius:50%;background:${col};flex-shrink:0;margin-top:5px"></div>
-      </div>`;
-    }).join('');
-  }
-}
-
-function renderAdminEmpTable(list){
-  const el=document.getElementById('admin-emp-tbl'); if(!el)return;
-  el.innerHTML=list.map(e=>{
-    const oa=overall(e);
-    const dates=['Mar 15','Mar 12','Mar 10','Mar 8','Mar 6','Mar 4','Feb 28','Feb 25','Feb 20','Mar 14','Mar 2','Mar 15'];
-    const di=employees.indexOf(e);
-    return`<tr>
-      <td><div style="display:flex;align-items:center;gap:7px">
-        <div class="av" style="width:26px;height:26px;font-size:9px">${initials(e.name)}</div>
-        <div class="td-name">${e.name}</div></div></td>
-      <td style="font-size:11px;color:var(--t3)">${e.id}</td>
-      <td><span class="badge badge-blue">${e.dept}</span></td>
-      <td><b style="color:${lc(oa)}">${oa}</b></td>
-      <td style="color:var(--t3);font-size:11px">${dates[di]||'Mar 15'}</td>
-      <td><div style="display:flex;gap:5px">
-        <button class="btn btn-ghost btn-sm" style="padding:4px 8px;font-size:10px" onclick='viewEmp("${e.id}")'>View</button>
-        <button class="btn btn-sm" style="padding:4px 8px;font-size:10px;background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.2);color:var(--a5)" onclick="showToast('Delete requires confirmation')">Del</button>
-      </div></td>
-    </tr>`;
-  }).join('');
-}
-
-function adminSearch(q){
-  q=q.toLowerCase();
-  const list=q?employees.filter(e=>e.name.toLowerCase().includes(q)||e.id.toLowerCase().includes(q)):employees;
-  renderAdminEmpTable(list);
-}
-
-/* ══════════════════════════════════════════════
-   NOTIFICATIONS
-══════════════════════════════════════════════ */
-function openNotif(){
-  const el=document.getElementById('notif-body');
-  el.innerHTML=notifs.map(n=>`
-    <div style="display:flex;gap:10px;align-items:flex-start;
-      padding:10px 0;border-bottom:1px solid var(--border)">
-      <span style="font-size:18px">${n.icon}</span>
-      <div><div style="font-size:13px;color:var(--text)">${n.msg}</div>
-      <div style="font-size:10px;color:var(--t3);margin-top:2px">${n.time}</div></div>
-    </div>`).join('');
-  openModal('modal-notif');
-}
-
-/* ══════════════════════════════════════════════
-   INIT FORM PAGE DEFAULTS
-══════════════════════════════════════════════ */
-document.addEventListener('DOMContentLoaded',()=>{
-  showFormStep(0);
-  updateStepBar();
 });
+
+// Donut chart
+(function() {
+  const cv = document.getElementById('donut');
+  if (!cv) return;
+  const ctx = cv.getContext('2d');
+  const data = [28, 45, 27];
+  const colors = ['#059669', '#d97706', '#dc2626'];
+  let start = -Math.PI / 2;
+  const cx = 55, cy = 55, r = 48, inner = 30;
+  data.forEach((v, i) => {
+    const slice = (v / 100) * Math.PI * 2;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.arc(cx, cy, r, start, start + slice);
+    ctx.closePath();
+    ctx.fillStyle = colors[i];
+    ctx.fill();
+    start += slice;
+  });
+  ctx.beginPath();
+  ctx.arc(cx, cy, inner, 0, Math.PI * 2);
+  ctx.fillStyle = '#ffffff';
+  ctx.fill();
+  ctx.fillStyle = '#0f172a';
+  ctx.font = 'bold 13px Plus Jakarta Sans, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('28%', cx, cy - 5);
+  ctx.font = '9px Plus Jakarta Sans, sans-serif';
+  ctx.fillStyle = '#64748b';
+  ctx.fillText('Advanced', cx, cy + 8);
+})();
+
+// Highlight active sidebar section on scroll
+const sections = document.querySelectorAll('[id]');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 80) current = s.id;
+  });
+  document.querySelectorAll('.sb-item').forEach(i => {
+    i.classList.remove('active');
+    if (i.getAttribute('href') === '#' + current) i.classList.add('active');
+  });
+}, { passive: true });
 </script>
 </body>
 </html>
